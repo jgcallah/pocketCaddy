@@ -8,6 +8,10 @@
      @onmousedown="StartRotation"
      @onmousemove="OnMouseMove"
      @onmouseup="StopRotation" style="cursor: pointer;"
+    @ontouchstart="StartRotationTouch"
+    @ontouchmove="OnTouchMove"
+    @ontouchend="StopRotationTouch"
+    @ontouchcancel="StopRotationTouch"
     id="svg1"
     xml:space="preserve"
     xmlns="http://www.w3.org/2000/svg"
@@ -59,21 +63,42 @@
         isRotating = false;
     }
 
+
+    private async void StartRotationTouch(TouchEventArgs e)
+    {
+        isRotating = true;
+    }
+
+    private async void StopRotationTouch(TouchEventArgs e)
+    {
+        isRotating = false;
+    }
+
     public async void UpdateRender(double windDirection)
     {
         angle = (windDirection * 30d) + 180d;
     }
 
-    private async void OnMouseMove(MouseEventArgs e)
+     private async void OnMouseMove(MouseEventArgs e)
     {
         if (!isRotating) return;
+        await Rotate(e.ClientX, e.ClientY);
+    }
 
+    private async void OnTouchMove(TouchEventArgs e)
+    {
+        if (!isRotating || e.Touches.Count() == 0) return;
+        await Rotate(e.Touches[0].ClientX, e.Touches[0].ClientY);
+    }
+
+    private async Task Rotate(double clientX, double clientY)
+    {
         var rect = await JS.InvokeAsync<DomRect>("getElementRect", ShapeRef);
         var centerX = rect.Left + rect.Width / 2;
         var centerY = rect.Top + rect.Height / 2;
 
-        var dx = e.ClientX - centerX;
-        var dy = e.ClientY - centerY;
+        var dx = clientX - centerX;
+        var dy = clientY - centerY;
 
         angle = Math.Atan2(dy, dx) * (180 / Math.PI) + 90d;
 
@@ -86,8 +111,9 @@
         WindDirection = System.Math.Round(adjAngle / 30d, 1);
 
         await WindDirectionChanged.InvokeAsync(WindDirection);
+        StateHasChanged(); // Ensure the UI updates during rotation
     }
-    
+
     [Inject] private IJSRuntime JS { get; set; }
     
     public class DomRect
