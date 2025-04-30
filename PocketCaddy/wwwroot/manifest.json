@@ -1,7 +1,7 @@
 {
   "name": "Pocket Caddy",
   "short_name": "Caddy",
-  "start_url": "/",
+  "start_url": "/pocket caddy/",
   "display": "standalone",
   "background_color": "#f8f9fa",
   "theme_color": "#2b9348",
