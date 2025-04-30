@@ -1,0 +1,8 @@
+/* iPhone 8/SE 2020 */
+@media (device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) {
+  .splash-screen {
+    background-image: url("/img/icons/icon-512.png");
+    background-size: 25%;
+  }
+}
+/* Add more device-specific rules as needed */
