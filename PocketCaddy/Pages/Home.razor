@@ -27,7 +27,18 @@
                     @InputControl("YDS", nameof(Yards), Yards, DecrementYards, IncrementYards, EventCallback.Factory.Create<double>(this, (double v) => Yards = v))
                 </div>
                 <div class="mb-1">
-                    @InputControl("E%", nameof(Elevation), Elevation, DecrementElevation, IncrementElevation, EventCallback.Factory.Create<double>(this, (double v) => Elevation = v))
+                    <div class="d-flex align-items-center gap-2">
+                        <label class="form-label mb-0" style="width: 100px;">E%:</label>
+                        <div class="input-group" style="max-width: 250px; min-width: 80px;">
+                            <button class="btn btn-outline-secondary" @onclick="DecrementElevation">-</button>
+                            <input class="form-control text-center no-spinner"
+                                type="text"
+                                value="@ElevationString"
+                                @oninput="HandleElevationInput"
+                                @onblur="HandleElevationBlur"/>
+                            <button class="btn btn-outline-secondary" @onclick="IncrementElevation">+</button>
+                        </div>
+                    </div>
                 </div>
             </div>
             <!-- WIND DIRECTION -->
@@ -56,8 +67,8 @@
                         @foreach (var row in PullValues)
                         {
                             <tr>
-                                <td>@row.Yards</td>
-                                <td>@row.Pull</td>
+                                <td style="background-color: @row.Background;">@row.Yards</td>
+                                <td style="background-color: @row.Background;">@row.Pull</td>
                             </tr>
                         }
                     </tbody>
@@ -148,6 +159,62 @@
     double _yards = 6d;
     double _elevation = 6d;
 
+    string ElevationString;
+    string LastValidElevationString = "0";
+
+    void HandleElevationInput(ChangeEventArgs e)
+    {
+        var val = e.Value?.ToString() ?? "";
+        if (val == "-")
+        {
+            _elevation = 0;
+            ElevationString = val;
+            LastValidElevationString = val;
+            UpdateData();
+        }
+        else if (double.TryParse(val, out var ele))
+        {
+            _elevation = ele;
+            ElevationString = val;
+            LastValidElevationString = val;
+            UpdateData();
+        }
+        else
+        {
+            ElevationString = LastValidElevationString;
+        }
+    }
+
+    private void HandleElevationBlur(FocusEventArgs e)
+    {
+        // When leaving the field, validate and normalize the input
+        if (string.IsNullOrWhiteSpace(ElevationString) || ElevationString == "-")
+        {
+            ElevationString = "0";
+        }
+        else if (double.TryParse(ElevationString, out var parsedValue))
+        {
+            // For display purposes, keep "-0" if that's what was entered
+            if (ElevationString == "-0" || ElevationString == "-0.")
+            {
+                ElevationString = "-0";
+                _elevation = 0.0;
+            }
+            else
+            {
+                _elevation = parsedValue;
+            }
+            UpdateData();
+        }
+        else
+        {
+            ElevationString = LastValidElevationString;
+        }
+        
+        LastValidElevationString = ElevationString;
+        StateHasChanged();
+    }
+
     double WindDirection
     {
         get => _windDirection;
@@ -196,6 +263,7 @@
             if (_elevation != value)
             {
                 _elevation = value;
+                ElevationString = value.ToString("0.0#");
                 UpdateData();
             }
         }
@@ -300,17 +368,23 @@
     double GetWindY() => System.Math.Sin(((WindDirection - 3d) * 30d) / 180d * System.Math.PI);
 
 
-    List<(double Yards, double Pull)> PullValues = new();
+    List<(double Yards, double Pull, string Background)> PullValues = new();
 
     void UpdatePullValues()
     {
         var yds = Yards;
         var yards = new[] {yds + 5, yds + 4, yds + 3, yds + 2, yds + 1, yds, yds - 1, yds - 1, yds - 3, yds - 4, yds - 5};
-        var rtn = new List<(double Yards, double Pull)>();
+        var rtn = new List<(double Yards, double Pull, string Background)>();
         foreach (var yd in yards)
         {
+            var color = "#FFFFFF";
+            if (yd == yds)
+                color = "#9fc5e8";
+            else if (System.Math.Abs(yds - yd) <= 3)
+                color = "#cfe2f3";
+            
             var pull = ComputePull(yd);
-            rtn.Add((yd, pull));
+            rtn.Add((yd, pull, color));
         }
 
         PullValues = rtn;
