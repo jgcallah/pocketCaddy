@@ -12,7 +12,7 @@
       content="black-translucent"
     />
     <title>PocketCaddy</title>
-    <base href="/pocketCaddy/" />
+    <base href="/PocketCaddy/" />
     <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="css/app.css" />
     <link rel="apple-touch-icon" href="img/icons/180.png" />
@@ -61,6 +61,15 @@
         updateAppSnapshot();
       }
     });
+
+    // Handle redirect after 404
+    (function () {
+      var redirect = sessionStorage.redirect;
+      delete sessionStorage.redirect;
+      if (redirect && redirect != location.href) {
+        history.replaceState(null, null, redirect);
+      }
+    })();
   </script>
   <body>
     <div id="app">
