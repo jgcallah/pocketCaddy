@@ -1,0 +1,32 @@
+name: Deploy to GitHub Pages
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy-to-github-pages:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+      
+    - name: Setup.NET SDK
+    uses: actions/setup-dotnet@v1
+    with:
+      dotnet-version: '9.0'
+
+    - name: Publish Blazor app
+      run: dotnet publish -c Release -o publish --nologo
+
+    - name: Change base href
+    run: sed -i 's/<base href="\/" \/>/<base href="\/pocketCaddy\/" \/>/g' publish/wwwroot/index.html
+
+    - name: Copy index.html to 404.html
+    run: cp publish/wwwroot/index.html publish/wwwroot/404.html
+
+    - name: Deploy to GitHub Pages
+    uses: JamesIves/github-pages-deploy-action@v4
+    with:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      BRANCH: gh-pages
+      FOLDER: publish/wwwroot
