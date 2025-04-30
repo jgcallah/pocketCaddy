@@ -7,26 +7,39 @@ jobs:
   deploy-to-github-pages:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-      
-    - name: Setup.NET SDK
-    uses: actions/setup-dotnet@v1
-    with:
-      dotnet-version: '9.0'
+      # uses GitHub's checkout action to checkout code form the main branch
+      - uses: actions/checkout@v2
 
-    - name: Publish Blazor app
-      run: dotnet publish -c Release -o publish --nologo
+      # sets up .NET Core SDK 9.0
+      - name: Setup .NET Core SDK
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 9.0
 
-    - name: Change base href
-    run: sed -i 's/<base href="\/" \/>/<base href="\/pocketCaddy\/" \/>/g' publish/wwwroot/index.html
+      # Install dotnet wasm buildtools workload
+      - name: Install .NET WASM Build Tools
+        run: dotnet workload install wasm-tools
 
-    - name: Copy index.html to 404.html
-    run: cp publish/wwwroot/index.html publish/wwwroot/404.html
+      # Publishes Blazor project to the release-folder
+      - name: Publish .NET Core Project
+        run: dotnet publish Portfolio/Portfolio.csproj -c:Release -p:GHPages=true -o dist/Web --nologo
 
-    - name: Deploy to GitHub Pages
-    uses: JamesIves/github-pages-deploy-action@v4
-    with:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      BRANCH: gh-pages
-      FOLDER: publish/wwwroot
+      # changes the base-tag in index.html from '/' to 'pocketCaddy' to match GitHub Pages repository subdirectory
+      - name: Change base-tag in index.html from / to pocketCaddy
+        run: sed -i 's/<base href="\/" \/>/<base href="\/pocketCaddy\/" \/>/g' dist/Web/wwwroot/index.html
+
+      # Copy index.html to 404.html to serve the same file when a file is not found
+      - name: Copy index.html to 404.html
+        run: cp dist/Web/wwwroot/index.html dist/Web/wwwroot/404.html
+
+      # Add .nojekyll file to tell GitHub Pages to not treat this as a Jekyll project. (Allow files and folders starting with an underscore)
+      - name: Add .nojekyll file
+        run: touch dist/Web/wwwroot/.nojekyll
+
+      #Publish static files to Github pages
+      - name: Commit wwwroot to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@3.7.1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: dist/Web/wwwroot`
