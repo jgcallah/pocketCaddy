@@ -1,0 +1,3 @@
+.no-touch-scroll {
+  touch-action: none;
+}
