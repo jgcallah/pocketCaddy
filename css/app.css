@@ -4,16 +4,6 @@ body {
   touch-action: manipulation;
 }
 
-body {
-  background-color: #f8f9fa; /* Match your app's background */
-}
-
-/* Prevent white flashes during snapshot */
-.app-container {
-  opacity: 1 !important;
-  transition: none !important;
-}
-
 .no-touch-scroll {
   touch-action: none;
 }
