@@ -465,9 +465,14 @@
         // Save state when app closes
         _ = SaveState();
     }
-
+    
+    @inject IJSRuntime JSRuntime
     private async Task SaveState()
     {
+
+        // 2. Force iOS to capture new state
+        await JSRuntime.InvokeVoidAsync("updateAppSnapshot");
+
         var state = new SavedState()
         {
             WindDirection = _windDirection,
