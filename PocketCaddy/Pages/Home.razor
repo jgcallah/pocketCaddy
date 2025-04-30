@@ -152,12 +152,12 @@
     }
 
 
-    double _windDirection = 6d;
-    double _windSpeed = 6d;
-    double _yards = 6d;
-    double _elevation = 6d;
+    double _windDirection;
+    double _windSpeed;
+    double _yards;
+    double _elevation;
 
-    string ElevationString;
+    string ElevationString = "0";
     string LastValidElevationString = "0";
 
     void HandleElevationInput(ChangeEventArgs e)
@@ -498,6 +498,7 @@
         else
         {
             SelectedClubName = LongIron.Name;
+            ResetInputs();
         }
     }
 
