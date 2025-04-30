@@ -70,6 +70,40 @@
         history.replaceState(null, null, redirect);
       }
     })();
+
+    if ("serviceWorker" in navigator) {
+      const basePath = "/pocketCaddy/"; // ← Match your repo name
+      window.addEventListener("load", () => {
+        navigator.serviceWorker
+          .register(basePath + "service-worker.js", {
+            scope: basePath,
+          })
+          .then((registration) => {
+            console.log("SW registered: ", registration);
+          })
+          .catch((registrationError) => {
+            console.log("SW registration failed: ", registrationError);
+          });
+      });
+    }
+
+    (function () {
+      const basePath = "/PocketCaddy/";
+      const absoluteUrl = (relativePath) => {
+        if (relativePath.startsWith("/"))
+          return basePath + relativePath.substring(1);
+        return basePath + relativePath;
+      };
+
+      // Fix script paths dynamically
+      document.addEventListener("DOMContentLoaded", () => {
+        document.querySelectorAll("script[src]").forEach((script) => {
+          if (!script.src.startsWith("http")) {
+            script.src = absoluteUrl(script.getAttribute("src"));
+          }
+        });
+      });
+    })();
   </script>
   <body>
     <div id="app">
