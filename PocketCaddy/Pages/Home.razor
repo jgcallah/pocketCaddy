@@ -1,4 +1,5 @@
 ﻿@using PocketCaddy.Components
+@using System.Text.Json
 @page "/"
 
 <PageTitle>Home</PageTitle>
@@ -128,9 +129,9 @@
     ClubData Wedge = new();
     string SelectedClubName = string.Empty;
 
-    ClubData GetSelectedClub()
+    ClubData? GetSelectedClub()
     {
-        var rtn = Clubs.First(w => w.Name == SelectedClubName); 
+        var rtn = Clubs.FirstOrDefault(w => w.Name == SelectedClubName); 
         return rtn;
     }
 
@@ -148,9 +149,6 @@
         {
             Driver, Wood, LongIron, ShortIron, Wedge
         };
-        SelectedClubName = LongIron.Name;
-
-        ResetInputs();
     }
 
 
@@ -360,6 +358,9 @@
 
     void UpdateData()
     {
+        if (GetSelectedClub() is null)
+            return;
+        SaveState();
         UpdatePullValues();
         UpdateROValues();
     }
@@ -395,6 +396,9 @@
         // current club
         var cc = GetSelectedClub();
 
+        if (cc is null)
+            return 0d;
+
         // set the range ratio
         var rr = yards / cc.MaxRange;
         if (cc.Type == 4) // for wedges, we modify this again. 
@@ -423,7 +427,7 @@
 
     void UpdateROValues()
     {
-        var cc = GetSelectedClub();
+        var cc = GetSelectedClub();        
         var sv = new[] { 2d, 2.25, 2.5, 2.75, 3, 3.25, 3.5, 3.75, 4, 4.25, 4.5, 4.75, 5, 5.5, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10 };
         var wy = GetWindY();
         var wi = WindSpeed;
@@ -442,5 +446,67 @@
         }
 
         ROValues = rtn;
+    }
+
+
+
+
+
+    @inject IJSRuntime JS
+    @implements IDisposable
+    protected override async Task OnInitializedAsync()
+    {
+        // Restore saved state when app loads
+        await RestoreState();
+    }
+
+    public void Dispose()
+    {
+        // Save state when app closes
+        _ = SaveState();
+    }
+
+    private async Task SaveState()
+    {
+        var state = new SavedState()
+        {
+            WindDirection = _windDirection,
+            WindSpeed = _windSpeed,
+            Yards = _yards,
+            Elevation = _elevation,
+            ElevationString = ElevationString,
+            SelectedClub = SelectedClubName
+        };
+        await JS.InvokeVoidAsync("localStorage.setItem", "golfAppState", JsonSerializer.Serialize(state));
+    }
+
+    private async Task RestoreState()
+    {
+        var saved = await JS.InvokeAsync<string>("localStorage.getItem", "golfAppState");
+        if (!string.IsNullOrEmpty(saved))
+        {
+            var state = JsonSerializer.Deserialize<SavedState>(saved);
+            WindDirection = state.WindDirection;
+            WindSpeed = state.WindSpeed;
+            Yards = state.Yards;
+            Elevation = state.Elevation;
+            ElevationString = state.ElevationString;
+            SelectedClubName = state.SelectedClub;
+            UpdateData();
+            StateHasChanged(); // Refresh UI
+        }
+        else
+        {
+            SelectedClubName = LongIron.Name;
+        }
+    }
+
+    private class SavedState {
+        public double WindDirection { get; set; }
+        public double WindSpeed { get; set; }
+        public double Yards { get; set; }
+        public double Elevation { get; set; }
+        public string ElevationString { get; set; }
+        public string SelectedClub { get; set; }
     }
 }
