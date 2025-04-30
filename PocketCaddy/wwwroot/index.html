@@ -26,6 +26,24 @@
         localStorage.setItem("lastSaved", Date.now());
       }
     });
+
+    // Force iOS to update the app preview with current content
+    function updateAppSnapshot() {
+      // This tricks iOS into taking a fresh snapshot
+      const dummy = document.createElement("div");
+      dummy.style.visibility = "hidden";
+      document.body.appendChild(dummy);
+      setTimeout(() => {
+        document.body.removeChild(dummy);
+      }, 100);
+    }
+
+    // Update snapshot when app backgrounds
+    document.addEventListener("visibilitychange", () => {
+      if (document.visibilityState === "hidden") {
+        updateAppSnapshot();
+      }
+    });
   </script>
   <body>
     <div id="app">
