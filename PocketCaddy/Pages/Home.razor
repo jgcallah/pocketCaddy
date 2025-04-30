@@ -106,14 +106,14 @@
 
 
 @code {
-    private Compass CompassControl;
+    private Compass? CompassControl;
 
-    ClubData Driver;
-    ClubData Wood;
-    ClubData LongIron;
-    ClubData ShortIron;
-    ClubData Wedge;
-    string SelectedClubName;
+    ClubData Driver = new();
+    ClubData Wood = new();
+    ClubData LongIron = new();
+    ClubData ShortIron = new();
+    ClubData Wedge = new();
+    string SelectedClubName = string.Empty;
 
     ClubData GetSelectedClub()
     {
@@ -282,7 +282,7 @@
     private void SetWindDirection(double newAngle)
     {
         WindDirection = newAngle;
-        CompassControl.UpdateRender(newAngle);
+        CompassControl?.UpdateRender(newAngle);
     }
 
     void UpdateData()
