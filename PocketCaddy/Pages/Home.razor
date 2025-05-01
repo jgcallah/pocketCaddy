@@ -373,19 +373,20 @@
 
     void UpdatePullValues()
     {
-        var yds = Yards;
+        var yds = System.Math.Round(Yards, 4);
         var yards = new[] {yds + 5, yds + 4, yds + 3, yds + 2, yds + 1, yds, yds - 1, yds - 1, yds - 3, yds - 4, yds - 5};
         var rtn = new List<(double Yards, double Pull, string Background)>();
         foreach (var yd in yards)
         {
+            var effYd = System.Math.Round(yd, 4);
             var color = "#FFFFFF";
-            if (yd == yds)
+            if (effYd == yds)
                 color = "#9fc5e8";
-            else if (System.Math.Abs(yds - yd) <= 3)
+            else if (System.Math.Abs(yds - effYd) <= 3)
                 color = "#cfe2f3";
             
-            var pull = ComputePull(yd);
-            rtn.Add((yd, pull, color));
+            var pull = ComputePull(effYd);
+            rtn.Add((effYd, pull, color));
         }
 
         PullValues = rtn;
