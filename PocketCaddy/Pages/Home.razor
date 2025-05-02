@@ -3,7 +3,7 @@
 @page "/"
 
 <PageTitle>Home</PageTitle>
-<div class="d-flex flex-column h-100">
+<div class="d-flex flex-column h-100" style="min-width: 375px; max-width: 462px;">
     <!-- INPUTS -->
     <div class="p-2 mb-2 border">
         <div class="hstack gap-3 mb-1">
@@ -43,8 +43,8 @@
                 </div>
             </div>
             <!-- WIND DIRECTION -->
-            <div class="col-4">
-                <div class="d-flex justify-content-center">
+            <div class="col-4 p-0 d-flex justify-content-center align-items-center">
+                <div class="justify-content-center align-items-center" style="max-height: 160px; width: fit-content; height: fit-content;">
                     <Compass @ref="CompassControl" WindDirection="@WindDirection" WindDirectionChanged="@SetWindDirection" />
                 </div>
             </div>
@@ -139,9 +139,9 @@
 
     protected override void OnInitialized()
     {
-        Driver = ClubData.Mammoth(8);
+        Driver = ClubData.Mammoth_8();
         Wood = ClubData.Vortex(7);
-        LongIron = ClubData.Eclipse(10);
+        LongIron = ClubData.Eclipse_10();
         ShortIron = ClubData.Thunder(10);
         Wedge = ClubData.Torque(8);
 
@@ -402,8 +402,12 @@
 
         // set the range ratio
         var rr = yards / cc.MaxRange;
-        if (cc.Type == 4) // for wedges, we modify this again. 
-            rr *= rr;
+        if (cc.Type == 4)
+        {
+            rr = 0.0279 * yards - 0.4756;
+            rr = System.Math.Max(0, rr);
+        }
+    
 
         // wind speed
         var ws = WindSpeed;
