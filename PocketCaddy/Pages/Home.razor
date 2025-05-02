@@ -8,7 +8,7 @@
     <div class="p-2 mb-2 border">
         <div class="hstack gap-3 mb-1">
             <label class="form-label mb-0" style="white-space: nowrap; width: 100px;">Club:</label>
-            <select class="form-select flex-fill"  @bind="SelectedClubName" @bind:after="ResetInputs">
+            <select class="form-select flex-fill" @bind="SelectedClubName" @bind:after="ResetInputs">
                 @foreach (var club in Clubs)
                 {
                     <option value="@club.Name">@club.Name</option>
@@ -16,7 +16,16 @@
             </select>
             <button class="btn btn-sm btn-outline-danger" title="Reset" @onclick="ResetInputs">⟲</button>
         </div>
+
         <div class="row">
+            <!-- Compass (Fixed Width to Prevent Overhang) -->
+            <div class="col-4 p-0 d-flex justify-content-center align-items-center">
+                <div class="d-flex justify-content-center align-items-center" style="width: 100%; max-width: 120px; height: 120px;">
+                    <Compass @ref="CompassControl"
+                             WindDirection="@WindDirection"
+                             WindDirectionChanged="@SetWindDirection" />
+                </div>
+            </div>
             <div class="col-8">
                 <div class="mb-1">
                     @InputControl("From", nameof(WindDirection), WindDirection, DecrementWindDirection, IncrementWindDirection, EventCallback.Factory.Create<double>(this, (double v) => WindDirection = v))
@@ -33,31 +42,25 @@
                         <div class="input-group" style="max-width: 250px; min-width: 80px;">
                             <button class="btn btn-outline-secondary" @onclick="DecrementElevation">-</button>
                             <input class="form-control text-center no-spinner"
-                                type="text"
-                                value="@ElevationString"
-                                @oninput="HandleElevationInput"
-                                @onblur="HandleElevationBlur"/>
+                                   type="text"
+                                   value="@ElevationString"
+                                   @oninput="HandleElevationInput"
+                                   @onblur="HandleElevationBlur" />
                             <button class="btn btn-outline-secondary" @onclick="IncrementElevation">+</button>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- WIND DIRECTION -->
-            <div class="col-4 p-0 d-flex justify-content-center align-items-center">
-                <div class="justify-content-center align-items-center" style="max-height: 160px; width: fit-content; height: fit-content;">
-                    <Compass @ref="CompassControl" WindDirection="@WindDirection" WindDirectionChanged="@SetWindDirection" />
-                </div>
-            </div>
+
         </div>
     </div>
 
-
     <!-- OUTPUTS: fills remaining space and scrolls internally -->
     <div class="border flex-grow-1 p-2 overflow-auto">
-        <div class="card-body h-100 d-flex gap-2">
+        <div class="card-body h-100 d-flex p-0 m-0">
             <!-- Table 1 -->
-            <div class="flex-fill overflow-auto">
-                <table class="table table-bordered table-sm synced-table" style="width: 150px;">
+            <div class="flex-fill overflow-auto me-2">
+                <table class="table table-bordered table-sm synced-table w-100">
                     <thead class="sticky-top bg-light">
                         <tr>
                             <th class="col-a">Yards</th>
@@ -78,7 +81,7 @@
 
             <!-- Table 2 -->
             <div class="flex-fill overflow-auto">
-                <table class="table table-bordered table-sm synced-table mb-0" style="width: 150px;">
+                <table class="table table-bordered table-sm synced-table w-100">
                     <thead class="sticky-top bg-light">
                         <tr>
                             <th class="col-a">SV</th>
@@ -98,6 +101,7 @@
             </div>
         </div>
     </div>
+
 </div>
 
 @functions {
