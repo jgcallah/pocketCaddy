@@ -63,8 +63,8 @@
                 <table class="table table-bordered table-sm synced-table w-100">
                     <thead class="sticky-top bg-light">
                         <tr>
-                            <th class="col-a">Yards</th>
-                            <th class="col-b">Pull</th>
+                            <th class="col-a">Yards  </th>
+                            <th class="col-b">Pull  </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -84,8 +84,8 @@
                 <table class="table table-bordered table-sm synced-table w-100">
                     <thead class="sticky-top bg-light">
                         <tr>
-                            <th class="col-a">SV</th>
-                            <th class="col-b">RO</th>
+                            <th class="col-a">SV  </th>
+                            <th class="col-b">RO  </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -377,20 +377,19 @@
 
     void UpdatePullValues()
     {
-        var yds = System.Math.Round(Yards, 4);
-        var yards = new[] {yds + 5, yds + 4, yds + 3, yds + 2, yds + 1, yds, yds - 1, yds - 1, yds - 3, yds - 4, yds - 5};
+        var yds = Yards;
+        var yards = new[] {yds + 5, yds + 4, yds + 3, yds + 2, yds + 1, yds, yds - 1, yds - 2, yds - 3, yds - 4, yds - 5};
         var rtn = new List<(double Yards, double Pull, string Background)>();
         foreach (var yd in yards)
         {
-            var effYd = System.Math.Round(yd, 4);
             var color = "#FFFFFF";
-            if (effYd == yds)
+            if (System.Math.Abs(yds - yd) <= 1e-6)
                 color = "#9fc5e8";
-            else if (System.Math.Abs(yds - effYd) <= 3)
+            else if (System.Math.Abs(yds - yd) <= 3 + 1e-6)
                 color = "#cfe2f3";
             
-            var pull = ComputePull(effYd);
-            rtn.Add((effYd, pull, color));
+            var pull = ComputePull(yd);
+            rtn.Add((System.Math.Round(yd, 4), pull, color));
         }
 
         PullValues = rtn;
@@ -404,20 +403,8 @@
         if (cc is null)
             return 0d;
 
-        // set the range ratio
-        var rr = yards / cc.MaxRange;
-        if (cc.Type == 4)
-        {
-            rr = 0.0279 * yards - 0.4756;
-            rr = System.Math.Max(0, rr);
-        }
-    
-
         // wind speed
         var ws = WindSpeed;
-
-        // base pull
-        var bp = rr * cc.MagicNumber * ws;
 
         // elevation factor
         var ef = 1 - Elevation / 100d;
@@ -425,6 +412,28 @@
         // wind factor
         var wy = GetWindY();
         var wf = 1 - wy * ws * 0.01;
+        
+        // base pull
+        var bp = 0d;
+
+        // wedges are different
+        if (cc.Type == 4)
+        {
+            // rings per wind at given yards
+            var mn = 0.0279 * yards - 0.4756;
+            mn = System.Math.Max(0, mn);
+
+            // base pull
+            bp = mn * ws;
+        }
+        else
+        {
+            // set the range ratio
+            var rr = yards / cc.MaxRange;
+
+            // base pull
+            bp = rr * cc.MagicNumber * ws;
+        }
 
         // effective pull
         var ep = bp * ef * wf;
