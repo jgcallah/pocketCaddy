@@ -20,6 +20,10 @@
   width: 100%; /* Match parent width */
   height: auto; /* Maintain aspect ratio */
   display: block; /* Remove inline spacing */
+  user-select: none;
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+/Edge */
 }
 /* /Layout/MainLayout.razor.rz.scp.css */
 /* Make the root fill the screen */
