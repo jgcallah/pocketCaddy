@@ -14,6 +14,7 @@
     <meta name="apple-mobile-web-app-title" content="Pocket Caddy" />
     <title>Pocket Caddy</title>
     <base href="/" />
+    <link rel="manifest" href="manifest.webmanifest" />
     <link rel="apple-touch-icon" sizes="180x180" href="/icons/icon-180.png" />
     <link rel="apple-touch-icon" sizes="167x167" href="/icons/icon-167.png" />
     <link rel="apple-touch-icon" sizes="152x152" href="/icons/icon-152.png" />
@@ -42,6 +43,12 @@
         updateAppSnapshot();
       }
     });
+
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker
+        .register("service-worker.js")
+        .then(() => console.log("Service Worker Registered"));
+    }
   </script>
   <body>
     <div id="app">
