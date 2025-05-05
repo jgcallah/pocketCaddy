@@ -1,26 +1,3 @@
-.compass-container {
-  display: grid;
-  grid-template-columns: repeat(4, auto);
-  gap: 6px;
-  justify-content: center;
-  max-width: 200px;
-}
-
-.compass-btn {
-  width: 45px;
-  height: 45px;
-  font-size: 0.8rem;
-  padding: 0;
-}
-
-@media (min-width: 576px) {
-  .compass-btn {
-    width: 60px;
-    height: 60px;
-    font-size: 1rem;
-  }
-}
-
 /* Chrome, Safari, Edge, Opera */
 .no-spinner::-webkit-inner-spin-button,
 .no-spinner::-webkit-outer-spin-button {
@@ -38,7 +15,7 @@
 }
 
 .card-body-tight {
-    padding: 0.5rem;
+  padding: 0.5rem;
 }
 
 .synced-table .col-b {

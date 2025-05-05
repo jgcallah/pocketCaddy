@@ -1,5 +1,30 @@
 @page "/compass"
 
+<div class="container p-0 no-touch-scroll" style="max-height: 160px;"
+    @ref="ShapeRef"
+    @onmousedown="StartRotation"
+    @onmousemove="OnMouseMove"
+    @onmouseup="StopRotation"
+    @ontouchstart="StartRotationTouch"
+    @ontouchmove="OnTouchMove"
+    @ontouchend="StopRotationTouch"
+    @ontouchcancel="StopRotationTouch">
+    <div class="base-content" style="max-height: 160px;">
+        <!-- Your main content here -->
+        <img src="/Resources/compass-background.svg" class="full-width-img" style="max-height: 160px;" draggable="false"/>
+    </div>
+    
+    <div class="overlay" style="max-height: 160px; ">
+        <img src="/Resources/compass-arrow.svg" class="full-width-img" style="max-height: 160px; transform: rotate(@rotationString);" draggable="false"/>
+    </div>
+    
+    <div class="overlay" style="max-height: 160px;">
+        <img src="/Resources/compass-grid-line.svg" class="full-width-img" style="max-height: 160px;" draggable="false"/>
+    </div>
+</div>
+
+
+@* 
 <svg
     width="100"
     height="100"
@@ -35,13 +60,14 @@
                 cy="50"
                 r="42.5" /></g>
     </g>
-</svg>
+</svg> *@
 
 @code {
-    private double angle = 0;
     private ElementReference ShapeRef;
     private bool isRotating = false;
     private string rotateTransform => $"rotate({angle}, 50, 50)";
+    private double angle = 0;
+    private string rotationString => $"{angle}deg";
 
     [Parameter]
     public double WindDirection { get; set; }
