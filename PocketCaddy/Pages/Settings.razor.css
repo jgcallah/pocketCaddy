@@ -1,0 +1,14 @@
+﻿.container {
+    display: flex; /* Establishes a flex container */
+    justify-content: space-between; /* Distributes space between items */
+    align-items: center; /* Vertically aligns items to the center (optional, but good for different height elements) */
+    padding: 0px; /* Optional: for some spacing around the container */
+}
+
+    .container h1 {
+        margin: 0; /* Removes default header margin for cleaner alignment */
+    }
+
+    .container button {
+        /* Add any specific button styling here */
+    }

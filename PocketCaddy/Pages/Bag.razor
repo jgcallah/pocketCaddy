@@ -1,8 +1,39 @@
-﻿@page "/bag"
+﻿@using PocketCaddy.Model
+@using PocketCaddy.Components
+@using PocketCaddy.Services
+
+@page "/bag"
+
+@inject PocketCaddyStateService AppStateService
 
 <PageTitle>Bag</PageTitle>
 
 <h1>Bag</h1>
+<div class="d-flex flex-column h-100" style="min-width: 375px; max-width: 462px; overflow-y: auto">
+    <div>
+        <p>
+        Clubs whose name ends in * indicates that the club's stats have not been checked, mainly because I 
+        do not have this club. If you can send me a screenshot of the given club on discord and I will mark 
+        it as verified. 
+        My discord profile is: 
+        <a href="https://discord.com/users/ponyo5129">Ponyo</a>
+        </p>
+        <p>
+        The magic number is the rings adjusted per mph wind at the corresponding maximum range.
+        </p>
+    </div>
+    <div>
+        <ClubControl Label="Driver:" ClubType="0"/>
+        <ClubControl Label="Wood:" ClubType="1"/>
+        <ClubControl Label="Long Iron:" ClubType="2"/>
+        <ClubControl Label="Short Iron:" ClubType="3"/>
+        <ClubControl Label="Wedge:" ClubType="4"/>
+        <ClubControl Label="Rough Iron:" ClubType="5"/>
+        <ClubControl Label="Sand Wedge:" ClubType="6"/>
+    </div>
+</div>
 
-<p>Club selection coming soon</p>
+
+
+
 

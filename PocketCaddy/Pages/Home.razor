@@ -1,13 +1,18 @@
 ﻿@using PocketCaddy.Components
 @using System.Text.Json
+@using PocketCaddy.Model
+@using PocketCaddy.Services
+
 @page "/"
+
+@inject PocketCaddyStateService AppStateService
 
 <PageTitle>Home</PageTitle>
 <div class="d-flex flex-column h-100" style="min-width: 375px; max-width: 462px;">
     <!-- INPUTS -->
     <div class="p-2 mb-2 border">
         <div class="hstack gap-3 mb-1">
-            <label class="form-label mb-0" style="white-space: nowrap; width: 100px;">Club:</label>
+            <label class="form-label mb-0" style="white-space: nowrap; width: 75px;">Club:</label>
             <select class="form-select flex-fill" @bind="SelectedClubName" @bind:after="ResetInputs">
                 @foreach (var club in Clubs)
                 {
@@ -22,8 +27,8 @@
             <div class="col-4 p-0 d-flex justify-content-center align-items-center">
                 <div class="d-flex justify-content-center align-items-center" style="width: 100%; max-width: 120px; height: 120px;">
                     <Compass @ref="CompassControl"
-                             WindDirection="@WindDirection"
-                             WindDirectionChanged="@SetWindDirection" />
+                    WindDirection="@WindDirection"
+                    WindDirectionChanged="@SetWindDirection" />
                 </div>
             </div>
             <div class="col-8">
@@ -38,14 +43,14 @@
                 </div>
                 <div class="mb-1">
                     <div class="d-flex align-items-center gap-2">
-                        <label class="form-label mb-0" style="width: 100px;">E%:</label>
+                        <label class="form-label mb-0" style="width: 75px;">E%:</label>
                         <div class="input-group" style="max-width: 250px; min-width: 80px;">
                             <button class="btn btn-outline-secondary" @onclick="DecrementElevation">-</button>
                             <input class="form-control text-center no-spinner"
-                                   type="text"
-                                   value="@ElevationString"
-                                   @oninput="HandleElevationInput"
-                                   @onblur="HandleElevationBlur" />
+                            type="text"
+                            value="@ElevationString"
+                            @oninput="HandleElevationInput"
+                            @onblur="HandleElevationBlur" />
                             <button class="btn btn-outline-secondary" @onclick="IncrementElevation">+</button>
                         </div>
                     </div>
@@ -108,14 +113,14 @@
     RenderFragment InputControl(string label, string key, double data, Action decrement, Action increment, EventCallback<double> dataChanged) => __builder =>
     {
         <div class="d-flex align-items-center gap-2">
-            <label class="form-label mb-0" style="width: 100px;">@label:</label>
+            <label class="form-label mb-0" style="width: 75px;">@label:</label>
             <div class="input-group" style="max-width: 250px; min-width: 80px;">
                 <button class="btn btn-outline-secondary" @onclick="decrement">-</button>
                 <input class="form-control text-center no-spinner"
-                    type="number"
-                    @bind="data"
-                    @bind:event="oninput"
-                    @bind:after="() => dataChanged.InvokeAsync(data)" />
+                type="number"
+                @bind="data"
+                @bind:event="oninput"
+                @bind:after="() => dataChanged.InvokeAsync(data)" />
                 <button class="btn btn-outline-secondary" @onclick="increment">+</button>
             </div>
         </div>
@@ -126,11 +131,7 @@
 @code {
     private Compass? CompassControl;
 
-    ClubData Driver = new();
-    ClubData Wood = new();
-    ClubData LongIron = new();
-    ClubData ShortIron = new();
-    ClubData Wedge = new();
+    UserData? Data;
     string SelectedClubName = string.Empty;
 
     ClubData? GetSelectedClub()
@@ -140,21 +141,6 @@
     }
 
     List<ClubData> Clubs = new();
-
-    protected override void OnInitialized()
-    {
-        Driver = ClubData.Mammoth_8();
-        Wood = ClubData.Vortex(7);
-        LongIron = ClubData.Eclipse_10();
-        ShortIron = ClubData.Thunder(10);
-        Wedge = ClubData.Torque(8);
-
-        Clubs = new List<ClubData>()
-        {
-            Driver, Wood, LongIron, ShortIron, Wedge
-        };
-    }
-
 
     double _windDirection;
     double _windSpeed;
@@ -212,7 +198,7 @@
         {
             ElevationString = LastValidElevationString;
         }
-        
+
         LastValidElevationString = ElevationString;
         StateHasChanged();
     }
@@ -274,10 +260,17 @@
     void ResetInputs()
     {
         var club = GetSelectedClub();
+        Data.ShotInfo.ClubType = club.Type;
         Yards = System.Math.Round(club.MaxRange - 5, 0);
         WindDirection = 6;
         WindSpeed = 4d;
         Elevation = 0d;
+
+        // save data
+        Data.ShotInfo.Yards = Yards;
+        Data.ShotInfo.WindSpeed = WindSpeed;
+        Data.ShotInfo.Elevation = Elevation;
+        Data.ShotInfo.WindDirection = WindDirection;
     }
 
     void IncrementWindDirection()
@@ -316,6 +309,7 @@
         if (value < 0d)
             value = 0d;
         WindSpeed = value;
+        Data.ShotInfo.WindSpeed = value;
     }
 
     void IncrementYards()
@@ -335,6 +329,7 @@
         if (value < 10d)
             value = 10d;
         Yards = value;
+        Data.ShotInfo.Yards = value;
     }
 
     void IncrementElevation()
@@ -352,21 +347,24 @@
     public void SetElevation(double value)
     {
         Elevation = value;
+        Data!.ShotInfo.Elevation = value;
     }
 
     private void SetWindDirection(double newAngle)
     {
         WindDirection = newAngle;
+        Data.ShotInfo.WindDirection = newAngle;
         CompassControl?.UpdateRender(newAngle);
     }
 
-    void UpdateData()
+    async void UpdateData()
     {
         if (GetSelectedClub() is null)
             return;
-        SaveState();
+        await AppStateService.SaveStateAsync(Data);
         UpdatePullValues();
         UpdateROValues();
+        StateHasChanged();
     }
 
 
@@ -388,57 +386,14 @@
             else if (System.Math.Abs(yds - yd) <= 3 + 1e-6)
                 color = "#cfe2f3";
             
-            var pull = ComputePull(yd);
-            rtn.Add((System.Math.Round(yd, 4), pull, color));
+            // current club
+            var cc = GetSelectedClub();
+            
+            var pull = cc.ComputePull(Elevation, WindDirection, WindSpeed, yd, cc.Type, Data!.Settings.Pull);
+            rtn.Add((System.Math.Round(yd, 4), System.Math.Round(pull, 2), color));
         }
 
         PullValues = rtn;
-    }
-
-    public double ComputePull(double yards)
-    {
-        // current club
-        var cc = GetSelectedClub();
-
-        if (cc is null)
-            return 0d;
-
-        // wind speed
-        var ws = WindSpeed;
-
-        // elevation factor
-        var ef = 1 - Elevation / 100d;
-
-        // wind factor
-        var wy = GetWindY();
-        var wf = 1 - wy * ws * 0.01;
-        
-        // base pull
-        var bp = 0d;
-
-        // wedges are different
-        if (cc.Type == 4)
-        {
-            // rings per wind at given yards
-            var mn = 0.0279 * yards - 0.4756;
-            mn = System.Math.Max(0, mn);
-
-            // base pull
-            bp = mn * ws;
-        }
-        else
-        {
-            // set the range ratio
-            var rr = yards / cc.MaxRange;
-
-            // base pull
-            bp = rr * cc.MagicNumber * ws;
-        }
-
-        // effective pull
-        var ep = bp * ef * wf;
-
-        return System.Math.Round(ep, 2);
     }
 
     List<(double SV, double RO)> ROValues = new();
@@ -446,20 +401,14 @@
     void UpdateROValues()
     {
         var cc = GetSelectedClub();        
-        var sv = new[] { 2d, 2.25, 2.5, 2.75, 3, 3.25, 3.5, 3.75, 4, 4.25, 4.5, 4.75, 5, 5.5, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10 };
-        var wy = GetWindY();
-        var wi = WindSpeed;
-        var svClub = cc.ShotView;
+        var sv = new[] { 1d, 1.25d, 1.5d, 1.75d, 2d, 2.25, 2.5, 2.75, 3, 3.25, 3.5, 3.75, 4, 4.25, 4.5, 4.75, 5, 5.5, 6.0, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10 };
         var rtn = new List<(double, double)>();
 
+        var hwMult = Data!.Settings.Rollout.GetHeadWind(cc.Type);
+        var twMult = Data!.Settings.Rollout.GetTailWind(cc.Type);
         foreach (var item in sv)
         {
-            var baseRO = item / svClub;
-            var adjustment = wy > 0d
-                ? 0.07
-                : 0.05;
-
-            var finalRO = baseRO * (1 + wy * adjustment * wi);
+            var finalRO = cc.ComputeRollout(hwMult, twMult, WindDirection, WindSpeed, item);
             rtn.Add((item, System.Math.Round(finalRO, 2)));
         }
 
@@ -468,69 +417,26 @@
 
 
 
-
-
-    @inject IJSRuntime JS
-    @implements IDisposable
-    protected override async Task OnInitializedAsync()
+    protected async override Task OnInitializedAsync()
     {
-        // Restore saved state when app loads
-        await RestoreState();
-    }
-
-    public void Dispose()
-    {
-        // Save state when app closes
-        _ = SaveState();
+        Data = await AppStateService.GetOrCreateStateAsync();
+        Clubs = Data.Bag.GetClubs();        
+        SelectedClubName = Clubs.ElementAt(Data.ShotInfo.ClubType).Name;
+        _yards = Data.ShotInfo.Yards;
+        _windDirection = Data.ShotInfo.WindDirection;
+        _windSpeed = Data.ShotInfo.WindSpeed;
+        _elevation = Data.ShotInfo.Elevation;
+        ElevationString = _elevation.ToString();
+        UpdatePullValues();
+        UpdateROValues();
     }
     
-    @inject IJSRuntime JSRuntime
-    private async Task SaveState()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-
-        // 2. Force iOS to capture new state
-        await JSRuntime.InvokeVoidAsync("updateAppSnapshot");
-
-        var state = new SavedState()
+        if (firstRender) // Only run once after initial render
         {
-            WindDirection = _windDirection,
-            WindSpeed = _windSpeed,
-            Yards = _yards,
-            Elevation = _elevation,
-            ElevationString = ElevationString,
-            SelectedClub = SelectedClubName
-        };
-        await JS.InvokeVoidAsync("localStorage.setItem", "golfAppState", JsonSerializer.Serialize(state));
-    }
-
-    private async Task RestoreState()
-    {
-        var saved = await JS.InvokeAsync<string>("localStorage.getItem", "golfAppState");
-        if (!string.IsNullOrEmpty(saved))
-        {
-            var state = JsonSerializer.Deserialize<SavedState>(saved);
-            WindDirection = state.WindDirection;
-            WindSpeed = state.WindSpeed;
-            Yards = state.Yards;
-            Elevation = state.Elevation;
-            ElevationString = state.ElevationString;
-            SelectedClubName = state.SelectedClub;
-            UpdateData();
-            StateHasChanged(); // Refresh UI
+            CompassControl?.UpdateRender(_windDirection);
         }
-        else
-        {
-            SelectedClubName = LongIron.Name;
-            ResetInputs();
-        }
-    }
-
-    private class SavedState {
-        public double WindDirection { get; set; }
-        public double WindSpeed { get; set; }
-        public double Yards { get; set; }
-        public double Elevation { get; set; }
-        public string ElevationString { get; set; }
-        public string SelectedClub { get; set; }
+        await base.OnAfterRenderAsync(firstRender);
     }
 }

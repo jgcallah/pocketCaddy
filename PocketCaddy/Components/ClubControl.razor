@@ -1,0 +1,135 @@
+@using PocketCaddy.Model
+@using PocketCaddy.Services
+
+@inject PocketCaddyStateService AppStateService
+
+<div class="club-control">
+    <label class="club-label">
+        @Label 
+        <select class="club-select" @bind="SelectedClubOption" @bind:after=SelectedClubOptionChanged>  
+            @foreach (var option in ClubOptions)
+            {
+                <option value="@option">@option</option>
+            }
+        </select>
+    </label>
+
+
+    <div class="stat-field">
+        <label>Name:</label>
+        <input readonly="@IsReadOnly" type="string" @bind="SelectedClub.Name" />
+    </div>
+    <div class="stats-grid">
+        <div class="stat-field">
+            <label>Accuracy:</label>
+            <input readonly="@IsReadOnly" type="number" @bind="SelectedClub.Accuracy" />
+        </div>
+        <div class="stat-field">
+            <label>Shot View:</label>
+            <input readonly="@IsReadOnly" type="number" @bind="SelectedClub.ShotView" />
+        </div>
+        <div class="stat-field">
+            <label>Max Range:</label>
+            <input readonly="@IsReadOnly" type="number" @bind="SelectedClub.MaxRange" />
+        </div>
+        <div class="stat-field">
+            <label>Magic Number:</label>
+            <input readonly="@IsReadOnly" type="number" @bind="SelectedClub.MagicNumber" />
+        </div>
+    </div>
+</div>
+
+@code {
+    UserData Data = new();
+    [Parameter] public string Label { get; set; } = "Club Type:";
+    [Parameter] public int ClubType { get; set; }
+    [Parameter] public string SelectedClubOption { get; set; } = string.Empty;
+
+    bool IsReadOnly { get; set; }
+
+    public List<string> ClubOptions
+    {
+        get => ClubType switch
+        {
+            0 => new List<string>([.. ClubData.GetAllDriverNames(), "Custom"]),
+            1 => new List<string>([.. ClubData.GetAllWoodNames(), "Custom"]),
+            2 => new List<string>([.. ClubData.GetAllLongIronNames(), "Custom"]),
+            3 => new List<string>([.. ClubData.GetAllShortIronNames(),  "Custom"]),
+            4 => new List<string>([.. ClubData.GetAllWedgeNames(), "Custom"]),
+            5 => new List<string>([.. ClubData.GetAllRoughIronNames(), "Custom"]),
+            6 => new List<string>([.. ClubData.GetAllSandWedgeNames(), "Custom"]),
+        };
+    }
+
+    [Parameter] public ClubData SelectedClub { get; set; } = new ClubData();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Data = await AppStateService.GetOrCreateStateAsync();
+        var club = ClubType switch
+        {
+            0 => Data.Bag.Driver,
+            1 => Data.Bag.Wood,
+            2 => Data.Bag.LongIron,
+            3 => Data.Bag.ShortIron,
+            4 => Data.Bag.Wedge,
+            5 => Data.Bag.RoughIron,
+            6 => Data.Bag.SandWedge,
+            _ => new()
+        };
+        SelectedClubOption = club.ID;
+        SelectedClub = club;
+    }
+
+    async void SelectedClubOptionChanged()
+    {
+        IsReadOnly = SelectedClubOption != "Custom";
+        
+        SelectedClub = GetNewClub();
+
+        if (ClubType == 0)
+            Data.Bag.Driver = SelectedClub;
+        else if (ClubType == 1)
+            Data.Bag.Wood = SelectedClub;
+        else if (ClubType == 2)
+            Data.Bag.LongIron = SelectedClub;
+        else if (ClubType == 3)
+            Data.Bag.ShortIron = SelectedClub;
+        else if (ClubType == 4)
+            Data.Bag.Wedge = SelectedClub;
+        else if (ClubType == 5)
+            Data.Bag.RoughIron = SelectedClub;
+        else if (ClubType == 6)
+            Data.Bag.SandWedge = SelectedClub;
+
+        StateHasChanged(); // Explicitly trigger a re-render
+        await AppStateService.SaveStateAsync(Data);
+    }
+
+    ClubData GetNewClub()
+    {
+        var rtn = SelectedClubOption == "Custom"
+        ? ClubType switch
+            {
+                0 => Data.CustomClubs.Driver,
+                1 => Data.CustomClubs.Wood,
+                2 => Data.CustomClubs.LongIron,
+                3 => Data.CustomClubs.ShortIron,
+                4 => Data.CustomClubs.Wedge,
+                5 => Data.CustomClubs.RoughIron,
+                6 => Data.CustomClubs.SandWedge,
+            }
+        : ClubType switch
+            {
+                0 => ClubData.GetDriver(SelectedClubOption),
+                1 => ClubData.GetWood(SelectedClubOption),
+                2 => ClubData.GetLongIron(SelectedClubOption),
+                3 => ClubData.GetShortIron(SelectedClubOption),
+                4 => ClubData.GetWedge(SelectedClubOption),
+                5 => ClubData.GetRoughIron(SelectedClubOption),
+                6 => ClubData.GetSandWedge(SelectedClubOption),
+            };
+        rtn.MaxRange = System.Math.Round(rtn.MaxRange, 4);
+        return rtn;
+    }
+}
