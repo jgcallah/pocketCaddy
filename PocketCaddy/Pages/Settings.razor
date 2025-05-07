@@ -1,0 +1,163 @@
+﻿@using PocketCaddy.Components
+@using System.Text.Json
+@using PocketCaddy.Model
+@using PocketCaddy.Services
+
+@page "/settings"
+
+@inject PocketCaddyStateService AppStateService
+
+<PageTitle>Settings</PageTitle>
+
+<div class="d-flex flex-column h-100" style="min-width: 375px; max-width: 462px; overflow-y: auto">
+    <div class="container" style="min-width: 375px; max-width: 462px;">
+        <h1>Settings</h1>
+        <button class="btn btn-sm btn-outline-primary" title="Reset to Defaults">⟲</button>
+    </div>
+    <div>
+        <h4>Pull Adjustments</h4>
+        <p>These values are added the the computed pull to account for pulling through the center of the target. Typical values used are -0.25 for pulling through the center, and -0.125 for pulling from the center.</p>
+        <div class="mb-1">
+            <div class="d-flex align-items-center gap-2">
+                <label class="form-label mb-0" style="width: 100px;">Driver:</label>
+                <div class="input-group" style="max-width: 250px; min-width: 80px;">
+                    <input class="form-control text-center no-spinner"
+                    type="number" 
+                    @bind="Data!.Settings.Pull.DriverAdjustment"
+                    @bind:after="DataChanged"/>
+                </div>
+            </div>
+        </div><div class="mb-1">
+            <div class="d-flex align-items-center gap-2">
+                <label class="form-label mb-0" style="width: 100px;">Wood:</label>
+                <div class="input-group" style="max-width: 250px; min-width: 80px;">
+                    <input class="form-control text-center no-spinner"
+                    type="number"
+                    @bind="Data!.Settings.Pull.WoodAdjustment"
+                    @bind:after="DataChanged"/>
+                </div>
+            </div>
+        </div><div class="mb-1">
+            <div class="d-flex align-items-center gap-2">
+                <label class="form-label mb-0" style="width: 100px;">Long Iron:</label>
+                <div class="input-group" style="max-width: 250px; min-width: 80px;">
+                    <input class="form-control text-center no-spinner"
+                    type="number"
+                    @bind="Data!.Settings.Pull.LongIronAdjustment"
+                    @bind:after="DataChanged"/>
+                </div>
+            </div>
+        </div><div class="mb-1">
+            <div class="d-flex align-items-center gap-2">
+                <label class="form-label mb-0" style="width: 100px;">Short Iron:</label>
+                <div class="input-group" style="max-width: 250px; min-width: 80px;">
+                    <input class="form-control text-center no-spinner"
+                    type="number"
+                    @bind="Data!.Settings.Pull.ShortIronAdjustment"
+                    @bind:after="DataChanged"/>
+                </div>
+            </div>
+        </div><div class="mb-1">
+            <div class="d-flex align-items-center gap-2">
+                <label class="form-label mb-0" style="width: 100px;">Wedge:</label>
+                <div class="input-group" style="max-width: 250px; min-width: 80px;">
+                    <input class="form-control text-center no-spinner"
+                    type="number"
+                    @bind="Data!.Settings.Pull.WedgeAdjustment"
+                    @bind:after="DataChanged"/>
+                </div>
+            </div>
+        </div>
+        <div class="mb-1">
+            <div class="d-flex align-items-center gap-2">
+                <label class="form-label mb-0" style="width: 100px;">Rough Iron:</label>
+                <div class="input-group" style="max-width: 250px; min-width: 80px;">
+                    <input class="form-control text-center no-spinner"
+                    type="number"
+                    @bind="Data!.Settings.Pull.RoughIronAdjustment"
+                    @bind:after="DataChanged"/>
+                </div>
+            </div>
+        </div>
+        <div class="mb-1">
+            <div class="d-flex align-items-center gap-2">
+                <label class="form-label mb-0" style="width: 100px;">Sand Wedge:</label>
+                <div class="input-group" style="max-width: 250px; min-width: 80px;">
+                    <input class="form-control text-center no-spinner"
+                    type="number"
+                    @bind="Data!.Settings.Pull.SandWedgeAdjustment"
+                    @bind:after="DataChanged"/>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <h4>Zero Adjustment Range</h4>
+        <p>
+            These options control at what range the adjustment becomes 0. You can also control if you want the logic to apply to all clubs, or just the wedge.
+        </p>
+        <div class="mb-1">
+            <div class="d-flex align-items-center gap-2">
+                <label class="form-label mb-0" style="width: 100px;">Zero at:</label>
+                <div class="input-group" style="max-width: 250px; min-width: 80px;">
+                    <input class="form-control text-center no-spinner"
+                    type="number"
+                    @bind="Data!.Settings.Pull.ZeroAdjustmentRange"
+                    @bind:after="DataChanged"/>
+                </div>
+            </div>
+        </div>
+        <div class="mb-1">
+            <div class="d-flex align-items-center gap-2">
+                <label class="form-label mb-0" style="width: 100px;">Apply to:</label>
+                <select class="form-select flex-fill" style="max-width: 250px; min-width: 80px;" @bind="Data.Settings.Pull.ZeroAdjustment" >
+                    <option value="@ZeroAdjustmentOptions.WedgeOnly">Wedge Only</option>
+                    <option value="@ZeroAdjustmentOptions.AllClubs">All Clubs</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div>
+        <h4>Head / Tail Wind Pull</h4>
+        <p>
+            The factors below increase / decrease the pull amount depending on if you have head or tail wind. This is used to compute a pull adjustment factor equal to 1 + wind * adjustment factor. Where wind is the amount of head / tail wind you have. Adjustment factors should be input as positive values, head wind will automatically increase pull and tailwind will decrease the pull.
+        </p>
+        <div class="mb-1">
+            <div class="d-flex align-items-center gap-2">
+                <label class="form-label mb-0" style="width: 100px;">Head wind:</label>
+                <div class="input-group" style="max-width: 250px; min-width: 80px;">
+                    <input class="form-control text-center no-spinner"
+                    type="number"
+                    @bind="Data!.Settings.Pull.HeadWindMultiplier"
+                    @bind:after="DataChanged"/>
+                </div>
+            </div>
+        </div>
+        <div class="mb-1">
+            <div class="d-flex align-items-center gap-2">
+                <label class="form-label mb-0" style="width: 100px;">Tail wind:</label>
+                <div class="input-group" style="max-width: 250px; min-width: 80px;">
+                    <input class="form-control text-center no-spinner"
+                    type="number"
+                    @bind="Data!.Settings.Pull.TailWindMultiplier"
+                    @bind:after="DataChanged"/>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code
+{
+    UserData Data = new();
+
+    protected async override Task OnInitializedAsync()
+    {
+        Data = await AppStateService.GetOrCreateStateAsync();
+    }
+
+    private async void DataChanged()
+    {
+        await AppStateService.SaveStateAsync(Data);
+    }
+}

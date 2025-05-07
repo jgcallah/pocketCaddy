@@ -1,0 +1,36 @@
+.club-control {
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background-color: #f9f9f9;
+}
+
+.club-label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.club-select {
+  margin-left: 0.5rem;
+  padding: 0.25rem 0.5rem;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.stat-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-field label {
+  font-size: 0.9rem;
+  width: 100px;
+  margin-bottom: 0.25rem;
+}

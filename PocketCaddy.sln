@@ -1,8 +1,9 @@
+﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.5.2.0
+VisualStudioVersion = 17.13.35913.81
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PocketCaddy", "PocketCaddy\PocketCaddy.csproj", "{EC734063-3D8F-030F-1703-899BBC1A61F4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PocketCaddy", "BlazorApp1\PocketCaddy.csproj", "{043034F6-F300-4259-8837-2605441513F5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -10,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{EC734063-3D8F-030F-1703-899BBC1A61F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EC734063-3D8F-030F-1703-899BBC1A61F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EC734063-3D8F-030F-1703-899BBC1A61F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EC734063-3D8F-030F-1703-899BBC1A61F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{043034F6-F300-4259-8837-2605441513F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{043034F6-F300-4259-8837-2605441513F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{043034F6-F300-4259-8837-2605441513F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{043034F6-F300-4259-8837-2605441513F5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {F7EE8367-F9B8-43D8-8DDB-EC4E2733C69E}
+		SolutionGuid = {8A4E753A-D602-4AD7-918A-27266FDF4949}
 	EndGlobalSection
 EndGlobal
