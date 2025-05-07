@@ -1,3 +1,40 @@
+/* /Components/ClubControl.razor.rz.scp.css */
+.club-control[b-p8cxlxvjd9] {
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background-color: #f9f9f9;
+}
+
+.club-label[b-p8cxlxvjd9] {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.club-select[b-p8cxlxvjd9] {
+  margin-left: 0.5rem;
+  padding: 0.25rem 0.5rem;
+}
+
+.stats-grid[b-p8cxlxvjd9] {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.stat-field[b-p8cxlxvjd9] {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-field label[b-p8cxlxvjd9] {
+  font-size: 0.9rem;
+  width: 100px;
+  margin-bottom: 0.25rem;
+}
 /* /Components/Compass.razor.rz.scp.css */
 .container[b-fytp25inil] {
   position: relative;
@@ -224,6 +261,7 @@ article.content[b-y4xh9zqt1o] {
     overflow-y: auto;
   }
 }
+/* /Pages/Bag.razor.rz.scp.css */
 /* /Pages/Home.razor.rz.scp.css */
 /* Chrome, Safari, Edge, Opera */
 .no-spinner[b-r8117svzky]::-webkit-inner-spin-button,
@@ -262,3 +300,18 @@ article.content[b-y4xh9zqt1o] {
 .scrollable-table table[b-r8117svzky] {
   min-height: 240px; /* ~10 rows depending on row height */
 }
+/* /Pages/Settings.razor.rz.scp.css */
+.container[b-qj7a3zjw53] {
+    display: flex; /* Establishes a flex container */
+    justify-content: space-between; /* Distributes space between items */
+    align-items: center; /* Vertically aligns items to the center (optional, but good for different height elements) */
+    padding: 0px; /* Optional: for some spacing around the container */
+}
+
+    .container h1[b-qj7a3zjw53] {
+        margin: 0; /* Removes default header margin for cleaner alignment */
+    }
+
+    .container button[b-qj7a3zjw53] {
+        /* Add any specific button styling here */
+    }
