@@ -404,8 +404,8 @@
         var sv = new[] { 1d, 1.25d, 1.5d, 1.75d, 2d, 2.25, 2.5, 2.75, 3, 3.25, 3.5, 3.75, 4, 4.25, 4.5, 4.75, 5, 5.5, 6.0, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10 };
         var rtn = new List<(double, double)>();
 
-        var hwMult = Data.Settings.Rollout.GetHeadWind(cc.Type);
-        var twMult = Data.Settings.Rollout.GetTailWind(cc.Type);
+        var hwMult = Data!.Settings.Rollout.GetHeadWind(cc.Type);
+        var twMult = Data!.Settings.Rollout.GetTailWind(cc.Type);
         foreach (var item in sv)
         {
             var finalRO = cc.ComputeRollout(hwMult, twMult, WindDirection, WindSpeed, item);

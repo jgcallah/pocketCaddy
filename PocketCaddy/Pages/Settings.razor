@@ -12,7 +12,7 @@
 <div class="d-flex flex-column h-100" style="min-width: 375px; max-width: 462px; overflow-y: auto">
     <div class="container" style="min-width: 375px; max-width: 462px;">
         <h1>Settings</h1>
-        <button class="btn btn-sm btn-outline-primary" title="Reset to Defaults">⟲</button>
+        <button class="btn btn-sm btn-outline-primary" title="Reset to Defaults" @onclick="ResetToDefaults">⟲</button>
     </div>
     <div>
         <h4>Pull Adjustments</h4>
@@ -118,7 +118,7 @@
         </div>
     </div>
     <div>
-        <h4>Head / Tail Wind Pull</h4>
+        <h4>Headwind / Tailwind Pull</h4>
         <p>
             The factors below increase / decrease the pull amount depending on if you have head or tail wind. This is used to compute a pull adjustment factor equal to 1 + wind * adjustment factor. Where wind is the amount of head / tail wind you have. Adjustment factors should be input as positive values, head wind will automatically increase pull and tailwind will decrease the pull.
         </p>
@@ -145,6 +145,58 @@
             </div>
         </div>
     </div>
+    <div>
+        <h4>Headwind / Tailwind Rollout</h4>
+        <p>
+            The factors below increase / decrease the roll out amount depending on if you have head or tail wind. This is used to compute a rollout adjustment factor equal to 1 + wind * adjustment factor. Where wind is the amount of head / tail wind you have. Adjustment factors should be input as positive values, head wind will automatically decrease rollout and tailwind will decrease the rollout.
+        </p>
+        <h5>Short Iron / Wedge</h5>
+        <div class="mb-1">
+            <div class="d-flex align-items-center gap-2">
+                <label class="form-label mb-0" style="width: 100px;">Head wind:</label>
+                <div class="input-group" style="max-width: 250px; min-width: 80px;">
+                    <input class="form-control text-center no-spinner"
+                    type="number"
+                    @bind="Data!.Settings.Rollout.HeadWindShort"
+                    @bind:after="DataChanged"/>
+                </div>
+            </div>
+        </div>
+        <div class="mb-1">
+            <div class="d-flex align-items-center gap-2">
+                <label class="form-label mb-0" style="width: 100px;">Tail wind:</label>
+                <div class="input-group" style="max-width: 250px; min-width: 80px;">
+                    <input class="form-control text-center no-spinner"
+                    type="number"
+                    @bind="Data!.Settings.Rollout.TailWindShort"
+                    @bind:after="DataChanged"/>
+                </div>
+            </div>
+        </div>
+        <h5>Other</h5>
+        <div class="mb-1">
+            <div class="d-flex align-items-center gap-2">
+                <label class="form-label mb-0" style="width: 100px;">Head wind:</label>
+                <div class="input-group" style="max-width: 250px; min-width: 80px;">
+                    <input class="form-control text-center no-spinner"
+                    type="number"
+                    @bind="Data!.Settings.Rollout.HeadWindLong"
+                    @bind:after="DataChanged"/>
+                </div>
+            </div>
+        </div>
+        <div class="mb-1">
+            <div class="d-flex align-items-center gap-2">
+                <label class="form-label mb-0" style="width: 100px;">Tail wind:</label>
+                <div class="input-group" style="max-width: 250px; min-width: 80px;">
+                    <input class="form-control text-center no-spinner"
+                    type="number"
+                    @bind="Data!.Settings.Rollout.TailWindLong"
+                    @bind:after="DataChanged"/>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 @code
@@ -158,6 +210,11 @@
 
     private async void DataChanged()
     {
+        await AppStateService.SaveStateAsync(Data);
+    }
+    private async void ResetToDefaults(MouseEventArgs args)
+    {
+        Data.Settings.SetDefaultValues();
         await AppStateService.SaveStateAsync(Data);
     }
 }
