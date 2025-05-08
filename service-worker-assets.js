@@ -1,5 +1,5 @@
 self.assetsManifest = {
-  "version": "C2T3Kqjf",
+  "version": "nA6hhRm2",
   "assets": [
     {
       "hash": "sha256-FftHCHJVokMokynlWmbQtRxKyhd3TgGHnB9cQX6aZoI=",
@@ -74,8 +74,8 @@ self.assetsManifest = {
       "url": "_framework/Microsoft.JSInterop.ceii4uvike.wasm"
     },
     {
-      "hash": "sha256-NkrBoFTeA6HwaffTK2HdcnEh4duHSOMV5JaPUOY2RLk=",
-      "url": "_framework/PocketCaddy.yqsxilekyu.wasm"
+      "hash": "sha256-ssuYcX6JYGZ7CxXB3Kg0ZOMmpXMcaUaTVQzA77HQW48=",
+      "url": "_framework/PocketCaddy.i4ljujxnvm.wasm"
     },
     {
       "hash": "sha256-Zf6MnUL7hnVl0/eGkf90NTAv79qj1y8Y1Jjv9ft+zQA=",
@@ -170,7 +170,7 @@ self.assetsManifest = {
       "url": "_framework/System.f0fr8djds0.wasm"
     },
     {
-      "hash": "sha256-HcOvLsH7NgkM2FZso8ofoJDtu7GWqcjgbV8HiG2/CAc=",
+      "hash": "sha256-l7zcASD11e0JRBzw8sYDM9g4ll4CR3vq/Pr2wNWiV9k=",
       "url": "_framework/blazor.boot.json"
     },
     {
@@ -422,7 +422,7 @@ self.assetsManifest = {
       "url": "lib/bootstrap/dist/js/bootstrap.min.js.map"
     },
     {
-      "hash": "sha256-PjaH6+xK3JeBnvhBC7aWrqFMwhi5DVhQtf/ORXTFrR0=",
+      "hash": "sha256-9YkIlb813Cg2/M6WO68JdhXoX1FoU9DUeUz6WmJfwYw=",
       "url": "manifest.webmanifest"
     },
     {

@@ -1,6 +1,6 @@
 {
-  "name": "BlazorApp1",
-  "short_name": "BlazorApp1",
+  "name": "Pocket Caddy",
+  "short_name": "Pocket Caddy",
   "id": "./",
   "start_url": "./",
   "display": "standalone",
