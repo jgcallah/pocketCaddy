@@ -1,5 +1,5 @@
 self.assetsManifest = {
-  "version": "QHWO9KjO",
+  "version": "DVRBUSgi",
   "assets": [
     {
       "hash": "sha256-FftHCHJVokMokynlWmbQtRxKyhd3TgGHnB9cQX6aZoI=",
@@ -74,8 +74,8 @@ self.assetsManifest = {
       "url": "_framework/Microsoft.JSInterop.ceii4uvike.wasm"
     },
     {
-      "hash": "sha256-71AheHsa3Rc0VPkZsvbAuYuz0/0wr0OC6F9qFrpxM3s=",
-      "url": "_framework/PocketCaddy.bhk1fp8lyk.wasm"
+      "hash": "sha256-2v7aunQnWlrSLPBnNesct1RLHTYkF2LJFIplWluACQI=",
+      "url": "_framework/PocketCaddy.e683diclq7.wasm"
     },
     {
       "hash": "sha256-Zf6MnUL7hnVl0/eGkf90NTAv79qj1y8Y1Jjv9ft+zQA=",
@@ -170,7 +170,7 @@ self.assetsManifest = {
       "url": "_framework/System.f0fr8djds0.wasm"
     },
     {
-      "hash": "sha256-fka4MqvrXK7Mm57XlcvmeuOv9hx8J6B6vfVpSegrCgc=",
+      "hash": "sha256-Tum8HwTSJnhTtwMebH1oDb64Q0DHFGk2vv4VF4hbWHs=",
       "url": "_framework/blazor.boot.json"
     },
     {
