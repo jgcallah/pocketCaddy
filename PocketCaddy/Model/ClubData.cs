@@ -266,7 +266,22 @@ namespace PocketCaddy.Model
             };
             return rtn;
         }
-        
+
+        public static ClubData Blast_8()
+        {
+            var rtn = new ClubData()
+            {
+                Name = $"Blast, 8",
+                ID = $"Blast, 8",
+                MagicNumber = 0.4926,
+                Type = 0,
+                Accuracy = 41,
+                MaxRange = System.Math.Round(242 * 1.1, 1),
+                ShotView = 0.93
+            };
+            return rtn;
+        }
+
         public static ClubData Mammoth_7()
         {
             var rtn = new ClubData()
@@ -301,12 +316,12 @@ namespace PocketCaddy.Model
         {
             var rtn = new ClubData()
             {
-                Name = $"Mammoth, 9*",
-                ID = $"Mammoth, 9*",
+                Name = $"Mammoth, 9",
+                ID = $"Mammoth, 9",
                 MagicNumber = 0.9901,
                 Type = 0,
                 Accuracy = 80,
-                MaxRange = System.Math.Round(240 * 1.1, 1),
+                MaxRange = System.Math.Round(241 * 1.1, 1),
                 ShotView = 1
             };
             return rtn;
@@ -376,12 +391,12 @@ namespace PocketCaddy.Model
         {
             var rtn = new ClubData()
             {
-                Name = $"Pulse, 7*",
-                ID = $"Pulse, 7*",
+                Name = $"Pulse, 7",
+                ID = $"Pulse, 7",
                 MagicNumber = 0.813,
                 Type = 0,
                 Accuracy = 70,
-                MaxRange = System.Math.Round(255 * 1.1, 1),
+                MaxRange = System.Math.Round(253 * 1.1, 1),
                 ShotView = 0.8
             };
             return rtn;
@@ -391,12 +406,12 @@ namespace PocketCaddy.Model
         {
             var rtn = new ClubData()
             {
-                Name = $"Pulse, 8*",
-                ID = $"Pulse, 8*",
+                Name = $"Pulse, 8",
+                ID = $"Pulse, 8",
                 MagicNumber = 0.8475,
                 Type = 0,
                 Accuracy = 70,
-                MaxRange = System.Math.Round(255 * 1.1, 1),
+                MaxRange = System.Math.Round(257 * 1.1, 1),
                 ShotView = 0.91
             };
             return rtn;
@@ -436,13 +451,13 @@ namespace PocketCaddy.Model
         {
             var rtn = new ClubData()
             {
-                Name = $"Corsair, 9*",
-                ID = $"Corsair, 9*",
+                Name = $"Corsair, 9",
+                ID = $"Corsair, 9",
                 MagicNumber = 1.0132d,
                 Type = 1,
                 Accuracy = 78,
-                MaxRange = System.Math.Round(200 * 1.1, 1),
-                ShotView = 0.88
+                MaxRange = System.Math.Round(202 * 1.1, 1),
+                ShotView = 0.89
             };
             return rtn;
         }
@@ -488,6 +503,21 @@ namespace PocketCaddy.Model
                 Accuracy = 75,
                 MaxRange = System.Math.Round(205 * 1.1, 1),
                 ShotView = 0.96
+            };
+            return rtn;
+        }
+
+        public static ClubData Nexus_8()
+        {
+            var rtn = new ClubData()
+            {
+                Name = $"Nexus, 8",
+                ID = $"Nexus, 8",
+                MagicNumber = 0,
+                Type = 1,
+                Accuracy = 98,
+                MaxRange = System.Math.Round(200 * 1.1, 1),
+                ShotView = 0.98
             };
             return rtn;
         }
@@ -572,8 +602,8 @@ namespace PocketCaddy.Model
         {
             var rtn = new ClubData()
             {
-                Name = $"Sabre, 8*",
-                ID = $"Sabre, 8*",
+                Name = $"Sabre, 8",
+                ID = $"Sabre, 8",
                 MagicNumber = 2.5641,
                 Type = 2,
                 Accuracy = 100,
@@ -618,13 +648,13 @@ namespace PocketCaddy.Model
         {
             var rtn = new ClubData()
             {
-                Name = $"Swoop, 7*",
-                ID = $"Swoop, 7*",
+                Name = $"Swoop, 7",
+                ID = $"Swoop, 7",
                 MagicNumber = 1.0788,
                 Type = 2,
                 Accuracy = 0.75,
-                MaxRange = System.Math.Round(185 * 1.1, 1),
-                ShotView = 0.80
+                MaxRange = System.Math.Round(182 * 1.1, 1),
+                ShotView = 0.81
             };
             return rtn;
         }
@@ -640,6 +670,21 @@ namespace PocketCaddy.Model
                 Accuracy = 75,
                 MaxRange = System.Math.Round(185 * 1.1, 1),
                 ShotView = 0.88
+            };
+            return rtn;
+        }
+
+        public static ClubData Launcher_8()
+        {
+            var rtn = new ClubData()
+            {
+                Name = $"Launcher, 8",
+                ID = $"Launcher, 8",
+                MagicNumber = 0,
+                Type = 2,
+                Accuracy = 84,
+                MaxRange = System.Math.Round(164 * 1.1, 1),
+                ShotView = 0.87
             };
             return rtn;
         }
@@ -708,8 +753,8 @@ namespace PocketCaddy.Model
         {
             var rtn = new ClubData()
             {
-                Name = $"Python, 9*",
-                ID = $"Python, 9*",
+                Name = $"Python, 9",
+                ID = $"Python, 9",
                 MagicNumber = 1.224,
                 Type = 3,
                 Accuracy = 65,
@@ -813,13 +858,13 @@ namespace PocketCaddy.Model
         {
             var rtn = new ClubData()
             {
-                Name = $"Torque, 9*",
-                ID = $"Torque, 9*",
-                MagicNumber = 2.4,
+                Name = $"Torque, 9",
+                ID = $"Torque, 9",
+                MagicNumber = 2.376,
                 Type = 4,
                 Accuracy = 87,
-                MaxRange = System.Math.Round(95 * 1.1, 1),
-                ShotView = 0.99
+                MaxRange = System.Math.Round(93 * 1.1, 1),
+                ShotView = 0.97
             };
             return rtn;
         }
