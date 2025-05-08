@@ -2,10 +2,10 @@ namespace PocketCaddy.Model
 {
     public class UserData
     {
-        public UserSettings Settings; 
-        public UserBag Bag;
-        public ShotInfomation ShotInfo;
-        public CustomClubInformation CustomClubs;
+        public UserSettings Settings { get; set; }
+        public UserBag Bag { get; set; }
+        public ShotInfomation ShotInfo { get; set; }
+        public CustomClubInformation CustomClubs { get; set; }
 
         public UserData()
         {

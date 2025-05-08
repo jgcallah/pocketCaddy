@@ -17,24 +17,24 @@
 
     <div class="stat-field">
         <label>Name:</label>
-        <input readonly="@IsReadOnly" type="string" @bind="SelectedClub.Name" />
+        <input readonly="@IsReadOnly" type="string" @bind="SelectedClub.Name" @bind:after=CustomDataChanged />
     </div>
     <div class="stats-grid">
         <div class="stat-field">
             <label>Accuracy:</label>
-            <input readonly="@IsReadOnly" type="number" @bind="SelectedClub.Accuracy" />
+            <input readonly="@IsReadOnly" type="number" @bind="SelectedClub.Accuracy" @bind:after=CustomDataChanged />
         </div>
         <div class="stat-field">
             <label>Shot View:</label>
-            <input readonly="@IsReadOnly" type="number" @bind="SelectedClub.ShotView" />
+            <input readonly="@IsReadOnly" type="number" @bind="SelectedClub.ShotView" @bind:after=CustomDataChanged />
         </div>
         <div class="stat-field">
             <label>Max Range:</label>
-            <input readonly="@IsReadOnly" type="number" @bind="SelectedClub.MaxRange" />
+            <input readonly="@IsReadOnly" type="number" @bind="SelectedClub.MaxRange" @bind:after=CustomDataChanged />
         </div>
         <div class="stat-field">
             <label>Magic Number:</label>
-            <input readonly="@IsReadOnly" type="number" @bind="SelectedClub.MagicNumber" />
+            <input readonly="@IsReadOnly" type="number" @bind="SelectedClub.MagicNumber" @bind:after=CustomDataChanged />
         </div>
     </div>
 </div>
@@ -84,7 +84,7 @@
     async void SelectedClubOptionChanged()
     {
         IsReadOnly = SelectedClubOption != "Custom";
-        
+
         SelectedClub = GetNewClub();
 
         if (ClubType == 0)
@@ -110,26 +110,31 @@
     {
         var rtn = SelectedClubOption == "Custom"
         ? ClubType switch
-            {
-                0 => Data.CustomClubs.Driver,
-                1 => Data.CustomClubs.Wood,
-                2 => Data.CustomClubs.LongIron,
-                3 => Data.CustomClubs.ShortIron,
-                4 => Data.CustomClubs.Wedge,
-                5 => Data.CustomClubs.RoughIron,
-                6 => Data.CustomClubs.SandWedge,
-            }
+        {
+            0 => Data.CustomClubs.Driver,
+            1 => Data.CustomClubs.Wood,
+            2 => Data.CustomClubs.LongIron,
+            3 => Data.CustomClubs.ShortIron,
+            4 => Data.CustomClubs.Wedge,
+            5 => Data.CustomClubs.RoughIron,
+            6 => Data.CustomClubs.SandWedge,
+        }
         : ClubType switch
-            {
-                0 => ClubData.GetDriver(SelectedClubOption),
-                1 => ClubData.GetWood(SelectedClubOption),
-                2 => ClubData.GetLongIron(SelectedClubOption),
-                3 => ClubData.GetShortIron(SelectedClubOption),
-                4 => ClubData.GetWedge(SelectedClubOption),
-                5 => ClubData.GetRoughIron(SelectedClubOption),
-                6 => ClubData.GetSandWedge(SelectedClubOption),
-            };
+        {
+            0 => ClubData.GetDriver(SelectedClubOption),
+            1 => ClubData.GetWood(SelectedClubOption),
+            2 => ClubData.GetLongIron(SelectedClubOption),
+            3 => ClubData.GetShortIron(SelectedClubOption),
+            4 => ClubData.GetWedge(SelectedClubOption),
+            5 => ClubData.GetRoughIron(SelectedClubOption),
+            6 => ClubData.GetSandWedge(SelectedClubOption),
+        };
         rtn.MaxRange = System.Math.Round(rtn.MaxRange, 4);
         return rtn;
+    }
+
+    private async void CustomDataChanged()
+    {
+        await AppStateService.SaveStateAsync(Data);
     }
 }

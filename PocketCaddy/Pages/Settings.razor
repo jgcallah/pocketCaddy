@@ -208,10 +208,11 @@
         Data = await AppStateService.GetOrCreateStateAsync();
     }
 
-    private async void DataChanged()
+    private async Task DataChanged()
     {
         await AppStateService.SaveStateAsync(Data);
     }
+
     private async void ResetToDefaults(MouseEventArgs args)
     {
         Data.Settings.SetDefaultValues();

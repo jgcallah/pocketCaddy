@@ -2,10 +2,10 @@ namespace PocketCaddy.Model
 {
     public class RolloutOptions
     {
-        public double HeadWindLong;
-        public double TailWindLong;
-        public double HeadWindShort;
-        public double TailWindShort;
+        public double HeadWindLong { get; set; }
+        public double TailWindLong  { get; set; }
+        public double HeadWindShort  { get; set; }
+        public double TailWindShort  { get; set; }
 
         public RolloutOptions()
         {

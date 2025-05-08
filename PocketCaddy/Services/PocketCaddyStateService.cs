@@ -16,13 +16,14 @@ namespace PocketCaddy.Services
         }
 
         private UserData _data;
+
         public async Task SaveStateAsync(UserData state)
         {
             try
             {
+                _data = state;
                 var serializedState = JsonSerializer.Serialize(state);
                 await _js.InvokeVoidAsync("localStorage.setItem", LocalStorageKey, serializedState);
-                _data = state;
             }
             catch (Exception ex)
             {

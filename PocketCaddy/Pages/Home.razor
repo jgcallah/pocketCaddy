@@ -131,7 +131,7 @@
 @code {
     private Compass? CompassControl;
 
-    UserData? Data;
+    UserData Data = new();
     string SelectedClubName = string.Empty;
 
     ClubData? GetSelectedClub()
@@ -142,11 +142,6 @@
 
     List<ClubData> Clubs = new();
 
-    double _windDirection;
-    double _windSpeed;
-    double _yards;
-    double _elevation;
-
     string ElevationString = "0";
     string LastValidElevationString = "0";
 
@@ -155,14 +150,14 @@
         var val = e.Value?.ToString() ?? "";
         if (val == "-")
         {
-            _elevation = 0;
+            Data!.ShotInfo.Elevation = 0;
             ElevationString = val;
             LastValidElevationString = val;
             UpdateData();
         }
         else if (double.TryParse(val, out var ele))
         {
-            _elevation = ele;
+            Data!.ShotInfo.Elevation = ele;
             ElevationString = val;
             LastValidElevationString = val;
             UpdateData();
@@ -186,11 +181,11 @@
             if (ElevationString == "-0" || ElevationString == "-0.")
             {
                 ElevationString = "-0";
-                _elevation = 0.0;
+                Data!.ShotInfo.Elevation = 0.0;
             }
             else
             {
-                _elevation = parsedValue;
+                Data!.ShotInfo.Elevation = parsedValue;
             }
             UpdateData();
         }
@@ -205,26 +200,26 @@
 
     double WindDirection
     {
-        get => _windDirection;
+        get => Data!.ShotInfo.WindDirection;
         set
         {
-            if (_windDirection != value)
+            if (Data!.ShotInfo.WindDirection != value)
             {
-                _windDirection = value;
+                Data!.ShotInfo.WindDirection = value;
                 UpdateData();
-                CompassControl?.UpdateRender(_windDirection);
+                CompassControl?.UpdateRender(Data!.ShotInfo.WindDirection);
             }
         }
     }
 
     double WindSpeed
     {
-        get => _windSpeed;
+        get => Data!.ShotInfo.WindSpeed;
         set
         {
-            if (_windSpeed != value)
+            if (Data!.ShotInfo.WindSpeed != value)
             {
-                _windSpeed = value;
+                Data!.ShotInfo.WindSpeed = value;
                 UpdateData();
             }
         }
@@ -232,12 +227,12 @@
 
     double Yards
     {
-        get => _yards;
+        get => Data!.ShotInfo.Yards;
         set
         {
-            if (_yards != value)
+            if (Data!.ShotInfo.Yards != value)
             {
-                _yards = value;
+                Data!.ShotInfo.Yards = value;
                 UpdateData();
             }
         }
@@ -245,12 +240,12 @@
 
     double Elevation
     {
-        get => _elevation;
+        get => Data!.ShotInfo.Elevation;
         set
         {
-            if (_elevation != value)
+            if (Data!.ShotInfo.Elevation != value)
             {
-                _elevation = value;
+                Data!.ShotInfo.Elevation = value;
                 ElevationString = value.ToString("0.0#");
                 UpdateData();
             }
@@ -262,7 +257,8 @@
         var club = GetSelectedClub();
         Data.ShotInfo.ClubType = club.Type;
 
-        var newYardage = System.Math.Round(System.Math.Floor((club.MaxRange - 5) / 5 + 1e-6) * 5 + 5, 0);
+        var targetYards = club.Type == 4 ? 30d : club.MaxRange - 5;
+        var newYardage = System.Math.Round(System.Math.Floor((targetYards) / 5 + 1e-6) * 5 + 5, 0);
         SetYardage(newYardage);
 
         // save data
@@ -273,7 +269,9 @@
     {
         var club = GetSelectedClub();
         Data.ShotInfo.ClubType = club.Type;
-        Yards = System.Math.Round(club.MaxRange - 5, 0);
+        var targetYards = club.Type == 4 ? 30d : club.MaxRange - 5;
+        var newYardage = System.Math.Round(System.Math.Floor((targetYards) / 5 + 1e-6) * 5 + 5, 0);
+        SetYardage(newYardage);
         WindDirection = 6;
         WindSpeed = 4d;
         Elevation = 0d;
@@ -434,11 +432,8 @@
         Data = await AppStateService.GetOrCreateStateAsync();
         Clubs = Data.Bag.GetClubs();        
         SelectedClubName = Clubs.ElementAt(Data.ShotInfo.ClubType).Name;
-        _yards = Data.ShotInfo.Yards;
-        _windDirection = Data.ShotInfo.WindDirection;
-        _windSpeed = Data.ShotInfo.WindSpeed;
-        _elevation = Data.ShotInfo.Elevation;
-        ElevationString = _elevation.ToString();
+  
+        ElevationString = Data.ShotInfo.Elevation.ToString();
         UpdatePullValues();
         UpdateROValues();
     }
@@ -447,7 +442,7 @@
     {
         if (firstRender) // Only run once after initial render
         {
-            CompassControl?.UpdateRender(_windDirection);
+            CompassControl?.UpdateRender(Data.ShotInfo.WindDirection);
         }
         await base.OnAfterRenderAsync(firstRender);
     }

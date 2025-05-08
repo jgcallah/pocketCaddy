@@ -2,13 +2,13 @@ namespace PocketCaddy.Model
 {
     public class ClubData
     {
-        public string Name = string.Empty;
-        public string ID = string.Empty;
-        public double MagicNumber;
-        public double Accuracy;
-        public int Type;
-        public double MaxRange;
-        public double ShotView;
+        public string Name { get; set; }  = string.Empty;
+        public string ID   { get; set; } = string.Empty;
+        public double MagicNumber  { get; set; }
+        public double Accuracy  { get; set; }
+        public int Type  { get; set; }
+        public double MaxRange  { get; set; }
+        public double ShotView  { get; set; }
 
         public double ComputePull(double elevation, double windDirection, double windStrength, double yards, int clubType, PullOptions options)
         {
