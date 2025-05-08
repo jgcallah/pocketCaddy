@@ -13,7 +13,7 @@
     <div class="p-2 mb-2 border">
         <div class="hstack gap-3 mb-1">
             <label class="form-label mb-0" style="white-space: nowrap; width: 75px;">Club:</label>
-            <select class="form-select flex-fill" @bind="SelectedClubName" @bind:after="ResetInputs">
+            <select class="form-select flex-fill" @bind="SelectedClubName" @bind:after="ClubChanged">
                 @foreach (var club in Clubs)
                 {
                     <option value="@club.Name">@club.Name</option>
@@ -255,6 +255,18 @@
                 UpdateData();
             }
         }
+    }
+
+    void ClubChanged()
+    {
+        var club = GetSelectedClub();
+        Data.ShotInfo.ClubType = club.Type;
+
+        var newYardage = System.Math.Round(System.Math.Floor((club.MaxRange - 5) / 5 + 1e-6) * 5 + 5, 0);
+        SetYardage(newYardage);
+
+        // save data
+        Data.ShotInfo.Yards = Yards;
     }
 
     void ResetInputs()
