@@ -1,8 +1,8 @@
 self.assetsManifest = {
-  "version": "9i4+Nhca",
+  "version": "hbr7kTbp",
   "assets": [
     {
-      "hash": "sha256-FftHCHJVokMokynlWmbQtRxKyhd3TgGHnB9cQX6aZoI=",
+      "hash": "sha256-jLKPBm5J3puO9aGL4Z9qnKWvCIleEQRUP2VgYSJXWaQ=",
       "url": "PocketCaddy.styles.css"
     },
     {
@@ -26,8 +26,8 @@ self.assetsManifest = {
       "url": "_framework/Microsoft.AspNetCore.Components.WebAssembly.qyco4g5bmd.wasm"
     },
     {
-      "hash": "sha256-QxjLobb3ZDL1sxDphu2m/fnh9a6U17n+SJubq4LbgHk=",
-      "url": "_framework/Microsoft.AspNetCore.Components.lebkp66233.wasm"
+      "hash": "sha256-eP8eRtY74VnGDYlTd9QWdj5NJ1sBjtn5Z5GvAfgNs6M=",
+      "url": "_framework/Microsoft.AspNetCore.Components.gm6cg12q77.wasm"
     },
     {
       "hash": "sha256-O/18yK/3Pj3wG2PLVJBN283TmIjoQ5k/JAdb5d/O+P8=",
@@ -74,8 +74,8 @@ self.assetsManifest = {
       "url": "_framework/Microsoft.JSInterop.ceii4uvike.wasm"
     },
     {
-      "hash": "sha256-GN4WkAQskPOqzd75Egd+prSb/HBNg7q64CMxwTMlsLU=",
-      "url": "_framework/PocketCaddy.4lj3gzqig8.wasm"
+      "hash": "sha256-JifBPXwOZ2yWc5AR0DBPe0EY2PGWrMynNs/37YIKaKE=",
+      "url": "_framework/PocketCaddy.e3e646zvju.wasm"
     },
     {
       "hash": "sha256-Zf6MnUL7hnVl0/eGkf90NTAv79qj1y8Y1Jjv9ft+zQA=",
@@ -150,8 +150,8 @@ self.assetsManifest = {
       "url": "_framework/System.Runtime.InteropServices.JavaScript.zp9u3yqbi4.wasm"
     },
     {
-      "hash": "sha256-1szkVU0kTsBDqcQdLnjLbstoNlWF1S7JBpDQXCSGK+0=",
-      "url": "_framework/System.Runtime.e2o4uf4b06.wasm"
+      "hash": "sha256-LZNjDXuR23Q1f1dHBM1DMGMwhSiaPfzUWvry4v/zpIE=",
+      "url": "_framework/System.Runtime.l29pxi9zyq.wasm"
     },
     {
       "hash": "sha256-KD5saNzkpUD3A/RXlqBthi/qKA3Sk2nZuNvyfL9+EWc=",
@@ -170,7 +170,7 @@ self.assetsManifest = {
       "url": "_framework/System.f0fr8djds0.wasm"
     },
     {
-      "hash": "sha256-PcVytKGES0qrmWGSwU9x3Ms50ti5+2QIjhnVBzbLvH8=",
+      "hash": "sha256-G0YDqfDi4V+DKsg7Nre8wx4e2WpUxHXFrLq4y24+31w=",
       "url": "_framework/blazor.boot.json"
     },
     {

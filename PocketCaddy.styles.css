@@ -266,40 +266,80 @@ article.content[b-y4xh9zqt1o] {
 /* Chrome, Safari, Edge, Opera */
 .no-spinner[b-r8117svzky]::-webkit-inner-spin-button,
 .no-spinner[b-r8117svzky]::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 /* Firefox */
 .no-spinner[b-r8117svzky] {
-  -moz-appearance: textfield;
-}
-
-.synced-table .col-a[b-r8117svzky] {
-  width: 50%;
+    -moz-appearance: textfield;
 }
 
 .card-body-tight[b-r8117svzky] {
-  padding: 0.5rem;
+    padding: 0.5rem;
 }
 
-.synced-table .col-b[b-r8117svzky] {
-  width: 50%;
+.synced-table thead tr[b-r8117svzky],
+.synced-table tbody tr[b-r8117svzky] {
+    display: flex; /* Make table rows flex containers */
+    width: 100%; /* Ensure they take full width */
 }
+
+.synced-table th[b-r8117svzky],
+.synced-table td[b-r8117svzky] {
+    flex-grow: 0; /* Ensure flex-basis is the primary width determinant */
+    flex-shrink: 0; /* Prevent shrinking */
+    word-break: break-word;
+    padding: 0.25rem 0.5rem; /* Consistent padding */
+    /* border: 1px solid #ccc; /* Uncomment for visual debugging of column widths */
+}
+
+/* --- Table 1 Specific Styles --- */
+/* Add a unique class or ID to Table 1 or its direct wrapper for more robust targeting if needed.
+   Here, we'll assume Table 1 is identifiable by being inside a div with '.me-2'
+   or you can add a specific class like 'table1-fixed-2col' to Table 1 itself. */
+.me-2 .synced-table th[b-r8117svzky],
+.me-2 .synced-table td[b-r8117svzky] {
+    flex-basis: 50%; /* Table 1 columns are always 50% */
+}
+/* If you add a specific class to Table 1 e.g., <table class="... table1-fixed-2col"> */
+/*
+.synced-table.table1-fixed-2col th,
+.synced-table.table1-fixed-2col td {
+    flex-basis: 50%;
+}
+*/
+
+
+/* --- Table 2 Specific Styles --- */
+/* We'll apply a class directly to Table 2 to indicate its column count. */
+
+/* When Table 2 has 2 columns */
+.synced-table.table2-cols-2 th[b-r8117svzky],
+.synced-table.table2-cols-2 td[b-r8117svzky] {
+    flex-basis: 50%;
+}
+
+/* When Table 2 has 3 columns */
+.synced-table.table2-cols-3 th[b-r8117svzky],
+.synced-table.table2-cols-3 td[b-r8117svzky] {
+    flex-basis: 33.3333%; /* Or calc(100% / 3) */
+}
+
 
 .table-wrapper[b-r8117svzky] {
-  min-width: 150px;
-  flex: 1;
+    min-width: 150px;
+    flex: 1;
 }
 
 .scrollable-table[b-r8117svzky] {
-  max-height: 300px;
-  overflow-y: auto;
+    max-height: 300px;
+    overflow-y: auto;
 }
 
-.scrollable-table table[b-r8117svzky] {
-  min-height: 240px; /* ~10 rows depending on row height */
-}
+    .scrollable-table table[b-r8117svzky] {
+        min-height: 240px; /* ~10 rows depending on row height */
+    }
 /* /Pages/Settings.razor.rz.scp.css */
 .container[b-qj7a3zjw53] {
     display: flex; /* Establishes a flex container */
