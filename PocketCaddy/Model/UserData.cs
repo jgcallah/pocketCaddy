@@ -2,6 +2,7 @@ namespace PocketCaddy.Model
 {
     public class UserData
     {
+        public string Version;
         public UserSettings Settings { get; set; }
         public UserBag Bag { get; set; }
         public ShotInfomation ShotInfo { get; set; }
