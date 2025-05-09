@@ -37,7 +37,7 @@ namespace PocketCaddy.Model
             SandWedgeAdjustment = 0d;
             HeadWindMultiplier = 0.0095;
             TailWindMultiplier = 0.0095;
-            ZeroAdjustmentRange = 16d;
+            ZeroAdjustmentRange = 17d;
             ZeroAdjustment = ZeroAdjustmentOptions.WedgeOnly;
         }
 

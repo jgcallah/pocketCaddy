@@ -257,7 +257,7 @@ namespace PocketCaddy.Model
             var rtn = new ClubData()
             {
                 Name = $"Blast, 7*",
-                ID = $"Blast, 7*",
+                ID = $"Blast, 7",
                 MagicNumber = 0.4926,
                 Type = 0,
                 Accuracy = 41,
@@ -287,7 +287,7 @@ namespace PocketCaddy.Model
             var rtn = new ClubData()
             {
                 Name = $"Mammoth, 7*",
-                ID = $"Mammoth, 7*",
+                ID = $"Mammoth, 7",
                 MagicNumber = 0.8368,
                 Type = 0,
                 Accuracy = 75,
@@ -347,7 +347,7 @@ namespace PocketCaddy.Model
             var rtn = new ClubData()
             {
                 Name = $"Everest, 7*",
-                ID = $"Everest, 7*",
+                ID = $"Everest, 7",
                 MagicNumber = 0.8696,
                 Type = 0,
                 Accuracy = 75,
@@ -362,7 +362,7 @@ namespace PocketCaddy.Model
             var rtn = new ClubData()
             {
                 Name = $"Everest, 8*",
-                ID = $"Everest, 8*",
+                ID = $"Everest, 8",
                 MagicNumber = 0.9009,
                 Type = 0,
                 Accuracy = 75,
@@ -422,16 +422,31 @@ namespace PocketCaddy.Model
             var rtn = new ClubData()
             {
                 Name = $"Bullseye, 7*",
-                ID = $"Bullseye, 7*",
+                ID = $"Bullseye, 7",
                 MagicNumber = 0.8475,
                 Type = 1,
                 Accuracy = 50,
-                MaxRange = System.Math.Round(199 * 1.1, 1),
+                MaxRange = System.Math.Round(200 * 1.1, 1),
                 ShotView = 0.94
             };
             return rtn;
         }
-        
+
+        public static ClubData Bullseye_8()
+        {
+            var rtn = new ClubData()
+            {
+                Name = $"Bullseye, 8",
+                ID = $"Bullseye, 8",
+                MagicNumber = 0.8475,
+                Type = 1,
+                Accuracy = 50,
+                MaxRange = System.Math.Round(200 * 1.1, 1),
+                ShotView = 0.95
+            };
+            return rtn;
+        }
+
         public static ClubData Corsair_8()
         {
             var rtn = new ClubData()
@@ -467,7 +482,7 @@ namespace PocketCaddy.Model
             var rtn = new ClubData()
             {
                 Name = $"Vortex, 6*",
-                ID = $"Vortex, 6*",
+                ID = $"Vortex, 6",
                 MagicNumber = 0.625,
                 Type = 1,
                 Accuracy = 55,
@@ -497,7 +512,7 @@ namespace PocketCaddy.Model
             var rtn = new ClubData()
             {
                 Name = $"Vortex, 8*",
-                ID = $"Vortex, 8*",
+                ID = $"Vortex, 8",
                 MagicNumber = 0.9569,
                 Type = 1,
                 Accuracy = 75,
@@ -542,7 +557,7 @@ namespace PocketCaddy.Model
             var rtn = new ClubData()
             {
                 Name = $"Eclipse, 9*",
-                ID = $"Eclipse, 9*",
+                ID = $"Eclipse, 9",
                 MagicNumber = 0.7054,
                 Type = 2,
                 Accuracy = 60,
@@ -557,7 +572,7 @@ namespace PocketCaddy.Model
             var rtn = new ClubData()
             {
                 Name = $"Eclipse, 8*",
-                ID = $"Eclipse, 8*",
+                ID = $"Eclipse, 8",
                 MagicNumber = 0.6061,
                 Type = 2,
                 Accuracy = 50,
@@ -572,7 +587,7 @@ namespace PocketCaddy.Model
             var rtn = new ClubData()
             {
                 Name = $"Sabre, 6*",
-                ID = $"Sabre, 6*",
+                ID = $"Sabre, 6",
                 MagicNumber = 2.34,
                 Type = 2,
                 Accuracy = 98,
@@ -664,7 +679,7 @@ namespace PocketCaddy.Model
             var rtn = new ClubData()
             {
                 Name = $"Swoop, 8*",
-                ID = $"Swoop, 8*",
+                ID = $"Swoop, 8",
                 MagicNumber = 1.1111,
                 Type = 2,
                 Accuracy = 75,
@@ -709,7 +724,7 @@ namespace PocketCaddy.Model
             var rtn = new ClubData()
             {
                 Name = $"Magnolia, 8*",
-                ID = $"Magnolia, 8*",
+                ID = $"Magnolia, 8",
                 MagicNumber = 2.9851,
                 Type = 3,
                 Accuracy = 100,
@@ -724,7 +739,7 @@ namespace PocketCaddy.Model
             var rtn = new ClubData()
             {
                 Name = $"Python, 7*",
-                ID = $"Python, 7*",
+                ID = $"Python, 7",
                 MagicNumber = 0.9524,
                 Type = 3,
                 Accuracy = 55,
@@ -769,7 +784,7 @@ namespace PocketCaddy.Model
             var rtn = new ClubData()
             {
                 Name = $"Thunder, 9*",
-                ID = $"Thunder, 9*",
+                ID = $"Thunder, 9",
                 MagicNumber = 1.385,
                 Type = 3,
                 Accuracy = 75,
@@ -888,13 +903,28 @@ namespace PocketCaddy.Model
         {
             var rtn = new ClubData()
             {
-                Name = $"Forge, 9*",
-                ID = $"Forge, 9*",
+                Name = $"Forge, 9",
+                ID = $"Forge, 9",
                 MagicNumber = 3.857,
                 Type = 5,
                 Accuracy = 100,
                 MaxRange = System.Math.Round(142 * 1.1, 1),
-                ShotView = 100
+                ShotView = 0.97
+            };
+            return rtn;
+        }
+
+        public static ClubData Catalyst_7()
+        {
+            var rtn = new ClubData()
+            {
+                Name = $"Catalyst, 7",
+                ID = $"Catalyst, 7",
+                MagicNumber = System.Math.Round(2.6178 * 121d / 130d, 4),
+                Type = 5,
+                Accuracy = 92,
+                MaxRange = System.Math.Round(121 * 1.1, 1),
+                ShotView = 92
             };
             return rtn;
         }
@@ -904,7 +934,7 @@ namespace PocketCaddy.Model
             var rtn = new ClubData()
             {
                 Name = $"Catalyst, 8*",
-                ID = $"Catalyst, 8*",
+                ID = $"Catalyst, 8",
                 MagicNumber = 2.6178,
                 Type = 5,
                 Accuracy = 92,
