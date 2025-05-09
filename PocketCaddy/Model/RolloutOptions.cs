@@ -6,6 +6,7 @@ namespace PocketCaddy.Model
         public double TailWindLong  { get; set; }
         public double HeadWindShort  { get; set; }
         public double TailWindShort  { get; set; }
+        public bool IncludeSideOffset { get; set; }
 
         public RolloutOptions()
         {
@@ -14,6 +15,8 @@ namespace PocketCaddy.Model
         
         public void SetDefaultValues()
         {
+            IncludeSideOffset = false;
+
             // Driver, Wood, Long Iron, Rough Iron, Sand Wedge
             HeadWindLong = 0.07;
             TailWindLong = 0.05;

@@ -196,6 +196,22 @@
                 </div>
             </div>
         </div>
+        <h5>Expreimental side offset</h5>
+        <p>
+            This option will include an experiemntal side offset number to be used to compute how many holes to the side you should aim. A value of 1.0 means you should aim one hole wide to the side of the center of the hole, so 0.5 cup widths out.  Currently the numbers being tested are only calibrated for the eclipse 10.
+        </p>
+        <div class="mb-1">
+            <div class="d-flex align-items-center gap-2">
+                <label class="form-label mb-0" style="width: 100px;">Include Side Offset</label>
+                <div class="input-group" style="max-width: 250px; min-width: 80px;">
+                    <input class="form-check-input"
+                       type="checkbox"
+                       @bind="Data!.Settings.Rollout.IncludeSideOffset"
+                       @bind:after="DataChanged"
+                       id="includeSideOffset" />
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
