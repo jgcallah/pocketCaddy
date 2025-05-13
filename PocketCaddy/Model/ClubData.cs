@@ -58,6 +58,23 @@ namespace PocketCaddy.Model
             return finalRO;
         }
         
+        public double ComputeSideOffset(double yards, double rollOut, double yprFactor, double windDirection, double pull)
+        {
+            yprFactor = 1.4d;
+            var df = yards / MaxRange;
+            var ypr = yprFactor / MagicNumber * df;
+            var mn = MagicNumber * df;
+
+            var pullRings = pull * System.Math.Abs(Math.Cos(((windDirection - 3d) * 30d) / 180d * System.Math.PI));
+            var pullYards = pullRings * ypr;
+
+            var sideOffset = pullYards / yards * rollOut * ypr;
+            var holeWidth = 4.25 / 36d;
+
+            var rtn = sideOffset / holeWidth;
+            return rtn;
+        }
+
         double GetWindY(double windDirection, double windStrength)
         {
             var rtn = System.Math.Sin(((windDirection - 3d) * 30d) / 180d * System.Math.PI) * windStrength;

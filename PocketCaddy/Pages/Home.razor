@@ -62,64 +62,64 @@
 
     <!-- OUTPUTS: fills remaining space and scrolls internally -->
     <div class="border flex-grow-1 p-2 overflow-auto"> <div class="card-body h-100 d-flex p-0 m-0">
-        <div class="flex-fill overflow-auto me-2"> 
-            <table class="table table-bordered table-sm synced-table w-100">                                                                            
-                <thead class="sticky-top bg-light">
-                    <tr>
-                        <th>Yards</th>
-                        <th>Pull</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (PullValues != null)
-                    {
-                        @foreach (var row in PullValues)
+            <div class="flex-fill overflow-auto me-2"> 
+                <table class="table table-bordered table-sm synced-table w-100">                                                                            
+                    <thead class="sticky-top bg-light">
+                        <tr>
+                            <th>Yards</th>
+                            <th>Pull</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (PullValues != null)
                         {
-                            <tr>
-                                <td style="background-color: @row.Background;">@row.Yards</td>
-                                <td style="background-color: @row.Background;">@row.Pull</td>
-                            </tr>
+                            @foreach (var row in PullValues)
+                            {
+                                <tr>
+                                    <td style="background-color: @row.Background;">@row.Yards</td>
+                                    <td style="background-color: @row.Background;">@row.Pull</td>
+                                </tr>
+                            }
                         }
-                    }
-                </tbody>
-            </table>
-        </div>
+                    </tbody>
+                </table>
+            </div>
 
-        @{
-            string table2LayoutClass = Data?.Settings?.Rollout?.IncludeSideOffset == true ? "table2-cols-3" : "table2-cols-2";
-        }
-        <div class="flex-fill overflow-auto">
-            <table class="table table-bordered table-sm synced-table w-100 @table2LayoutClass">
-                <thead class="sticky-top bg-light">
-                    <tr>
-                        <th>SV</th>
-                        <th>RO</th>
-                        @if (Data?.Settings?.Rollout?.IncludeSideOffset == true)
+            @{
+                string table2LayoutClass = Data?.Settings?.Rollout?.IncludeSideOffset == true ? "table2-cols-3" : "table2-cols-2";
+            }
+            <div class="flex-fill overflow-auto">
+                <table class="table table-bordered table-sm synced-table w-100 @table2LayoutClass">
+                    <thead class="sticky-top bg-light">
+                        <tr>
+                            <th>SV</th>
+                            <th>RO</th>
+                            @if (Data?.Settings?.Rollout?.IncludeSideOffset == true)
+                            {
+                                <th>SO</th>
+                            }
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (ROValues != null)
                         {
-                            <th>SO</th>
+                            @foreach (var row in ROValues)
+                            {
+                                <tr>
+                                    <td>@row.SV</td>
+                                    <td>@row.RO</td>
+                                    @if (Data?.Settings?.Rollout?.IncludeSideOffset == true)
+                                    {
+                                        <td>@row.SO</td>
+                                    }
+                                </tr>
+                            }
                         }
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (ROValues != null)
-                    {
-                        @foreach (var row in ROValues)
-                        {
-                            <tr>
-                                <td>@row.SV</td>
-                                <td>@row.RO</td>
-                                @if (Data?.Settings?.Rollout?.IncludeSideOffset == true)
-                                {
-                                    <td>@row.SO</td>
-                                }
-                            </tr>
-                        }
-                    }
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-</div>
 
 </div>
 
@@ -428,19 +428,14 @@
         var sv = new[] { 1d, 1.25d, 1.5d, 1.75d, 2d, 2.25, 2.5, 2.75, 3, 3.25, 3.5, 3.75, 4, 4.25, 4.5, 4.75, 5, 5.5, 6.0, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10 };
         var rtn = new List<(double, double, double)>();
 
-        var hwMult = Data!.Settings.Rollout.GetHeadWind(cc.Type);
+        var hwMult = Data!.Settings.Rollout.GetHeadWind(cc!.Type);
         var twMult = Data!.Settings.Rollout.GetTailWind(cc.Type);
+        var soFactor = Data!.Settings.Rollout.GetSideOffsetFactor(cc.Type);
         foreach (var item in sv)
         {
             var finalRO = cc.ComputeRollout(hwMult, twMult, WindDirection, WindSpeed, item);
-
-            var ypr = Yards * 0.00921195274496178; // Yards per ring for eclipse 10 at given yards
-            var wx = System.Math.Abs(System.Math.Cos(((WindDirection - 3d) * 30d) / 180d * System.Math.PI)); // wind x component
-            var ypx = wx * ypr * PullValues.ElementAt((PullValues.Count + 1) / 2).Pull; // yards pulled in the lateral direction
-            var pyr = ypx / Yards; // pull to yards ratio
-            var hw = 0.1181; // width of the cup, in yards
-            var phm = finalRO * ypr * pyr; // post hole movement in the lateral direction
-            var so = phm / hw; // total cups the ball will move
+            var pull = PullValues.ElementAt((PullValues.Count + 1) / 2).Pull;
+            var so = cc.ComputeSideOffset(Yards, finalRO, soFactor, WindDirection, pull);
 
             rtn.Add((item, System.Math.Round(finalRO, 2), System.Math.Round(so, 2)));
         }

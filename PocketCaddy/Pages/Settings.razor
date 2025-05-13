@@ -211,6 +211,77 @@
                        id="includeSideOffset" />
                 </div>
             </div>
+                <div class="d-flex align-items-center gap-2">
+                    <label class="form-label mb-0" style="width: 100px;">Driver:</label>
+                    <div class="input-group" style="max-width: 250px; min-width: 80px;">
+                        <input class="form-control text-center no-spinner"
+                        type="number" 
+                        @bind="Data!.Settings.Rollout.DriverSideOffsetFactor"
+                        @bind:after="DataChanged"/>
+                    </div>
+                </div>
+            </div><div class="mb-1">
+                <div class="d-flex align-items-center gap-2">
+                    <label class="form-label mb-0" style="width: 100px;">Wood:</label>
+                    <div class="input-group" style="max-width: 250px; min-width: 80px;">
+                        <input class="form-control text-center no-spinner"
+                        type="number"
+                        @bind="Data!.Settings.Rollout.WoodSideOffsetFactor"
+                        @bind:after="DataChanged"/>
+                    </div>
+                </div>
+            </div><div class="mb-1">
+                <div class="d-flex align-items-center gap-2">
+                    <label class="form-label mb-0" style="width: 100px;">Long Iron:</label>
+                    <div class="input-group" style="max-width: 250px; min-width: 80px;">
+                        <input class="form-control text-center no-spinner"
+                        type="number"
+                        @bind="Data!.Settings.Rollout.LongIronSideOffsetFactor"
+                        @bind:after="DataChanged"/>
+                    </div>
+                </div>
+            </div><div class="mb-1">
+                <div class="d-flex align-items-center gap-2">
+                    <label class="form-label mb-0" style="width: 100px;">Short Iron:</label>
+                    <div class="input-group" style="max-width: 250px; min-width: 80px;">
+                        <input class="form-control text-center no-spinner"
+                        type="number"
+                        @bind="Data!.Settings.Rollout.ShortIronSideOffsetFactor"
+                        @bind:after="DataChanged"/>
+                    </div>
+                </div>
+            </div><div class="mb-1">
+                <div class="d-flex align-items-center gap-2">
+                    <label class="form-label mb-0" style="width: 100px;">Wedge:</label>
+                    <div class="input-group" style="max-width: 250px; min-width: 80px;">
+                        <input class="form-control text-center no-spinner"
+                        type="number"
+                        @bind="Data!.Settings.Rollout.WedgeSideOffsetFactor"
+                        @bind:after="DataChanged"/>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-1">
+                <div class="d-flex align-items-center gap-2">
+                    <label class="form-label mb-0" style="width: 100px;">Rough Iron:</label>
+                    <div class="input-group" style="max-width: 250px; min-width: 80px;">
+                        <input class="form-control text-center no-spinner"
+                        type="number"
+                        @bind="Data!.Settings.Rollout.RoughIronSideOffsetFactor"
+                        @bind:after="DataChanged"/>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-1">
+                <div class="d-flex align-items-center gap-2">
+                    <label class="form-label mb-0" style="width: 100px;">Sand Wedge:</label>
+                    <div class="input-group" style="max-width: 250px; min-width: 80px;">
+                        <input class="form-control text-center no-spinner"
+                        type="number"
+                        @bind="Data!.Settings.Rollout.SandWedgeSideOffsetFactor"
+                        @bind:after="DataChanged"/>
+                    </div>
+            </div>
         </div>
     </div>
 </div>
