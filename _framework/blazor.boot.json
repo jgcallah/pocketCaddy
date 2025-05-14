@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "PocketCaddy",
   "resources": {
-    "hash": "sha256-+8k+n607CJ7WJdLVMFA+osOILL4Gzy0gsc+QBYB9im8=",
+    "hash": "sha256-E+Qb40Y6sw46scrG8rQls6LkmcQ8Jl+BoZ8VBi32YTs=",
     "fingerprinting": {
       "Microsoft.AspNetCore.Components.gm6cg12q77.wasm": "Microsoft.AspNetCore.Components.wasm",
       "Microsoft.AspNetCore.Components.Web.icisfgd9yp.wasm": "Microsoft.AspNetCore.Components.Web.wasm",
@@ -40,7 +40,7 @@
       "System.Text.RegularExpressions.k0eu65ve7y.wasm": "System.Text.RegularExpressions.wasm",
       "System.ezrw3d5kw2.wasm": "System.wasm",
       "System.Private.CoreLib.yzqcrny1ud.wasm": "System.Private.CoreLib.wasm",
-      "PocketCaddy.lcdrdfur8l.wasm": "PocketCaddy.wasm",
+      "PocketCaddy.fyta5rxbw1.wasm": "PocketCaddy.wasm",
       "dotnet.native.w2rpj55hda.js": "dotnet.native.js",
       "dotnet.native.0kojonh52w.wasm": "dotnet.native.wasm",
       "dotnet.js": "dotnet.js",
@@ -103,7 +103,7 @@
       "System.Text.Json.mimi45jb2g.wasm": "sha256-ghV6Jk66trWIQhLC6kQOkZdt9NgjJ+64VKdZgmbH+50=",
       "System.Text.RegularExpressions.k0eu65ve7y.wasm": "sha256-dAw+dIKra7ljgRE+eVWL5wTVKKXPJi7x/AdHfLLcFDs=",
       "System.ezrw3d5kw2.wasm": "sha256-ViNRvhyxlTugIlqJHamw/HwbXlg/YWcrANmxuTM0tfg=",
-      "PocketCaddy.lcdrdfur8l.wasm": "sha256-VeVQ4SIVj8pJ+inTWa4L/ZcXBCI/A3MvROAxRZy3EBg="
+      "PocketCaddy.fyta5rxbw1.wasm": "sha256-J/eI72JZmZQ8J2YxFCDfHIvfGP//PuoCHtqfRwNlwdE="
     }
   },
   "cacheBootResources": true,
