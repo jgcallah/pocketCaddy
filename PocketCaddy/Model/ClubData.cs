@@ -81,7 +81,6 @@ namespace PocketCaddy.Model
         
         public double ComputeSideOffset(double yards, double rollOut, double yprFactor, double windDirection, double pull)
         {
-            yprFactor = 1.4d;
             var df = yards / MaxRange;
             var ypr = yprFactor / MagicNumber * df;
             var mn = MagicNumber * df;
