@@ -92,6 +92,21 @@
         </div>
     </div>
     <div>
+        <h4>Elevation</h4>
+        <div class="mb-1">
+            <div class="d-flex align-items-center gap-2">
+                <label class="form-label mb-0" style="width: 250px;">Adjust elevation for secondary bounce:</label>
+                <div class="input-group" style="max-width: 250px; min-width: 80px;">
+                    <input class="form-check-input"
+                       type="checkbox"
+                       @bind="Data!.Settings.Pull.AdjustElevationValues"
+                       @bind:after="DataChanged"
+                       id="adjustElevationValues" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
         <h4>Zero Adjustment Range</h4>
         <p>
             These options control at what range the adjustment becomes 0. You can also control if you want the logic to apply to all clubs, or just the wedge.

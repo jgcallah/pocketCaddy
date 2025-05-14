@@ -20,6 +20,7 @@ namespace PocketCaddy.Model
         public double TailWindMultiplier  { get; set; }
         public double ZeroAdjustmentRange  { get; set; }
         public ZeroAdjustmentOptions ZeroAdjustment  { get; set; }
+        public bool AdjustElevationValues { get; set; }
 
         public PullOptions()
         {
@@ -39,6 +40,7 @@ namespace PocketCaddy.Model
             TailWindMultiplier = 0.0095;
             ZeroAdjustmentRange = 17d;
             ZeroAdjustment = ZeroAdjustmentOptions.WedgeOnly;
+            AdjustElevationValues = true;
         }
 
         internal double GetAdjustment(int clubType)

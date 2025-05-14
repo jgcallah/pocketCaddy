@@ -16,7 +16,7 @@ namespace PocketCaddy.Model
             var ws = windStrength;
 
             // elevation factor
-            var ef = 1 - elevation / 100d;
+            var ef = GetElevationFactor(elevation, options);
 
             // wind factor
             var wy = GetWindY(windDirection, windStrength);
@@ -44,6 +44,27 @@ namespace PocketCaddy.Model
             var ep = bp * ef * wf - adj;
 
             return ep;
+        }
+
+        private double GetElevationFactor(double elevation, PullOptions options)
+        {
+            var rtn = 1 - elevation / 100d;
+            if (options.AdjustElevationValues)
+            {
+                if (elevation > 0d)
+                {
+                    var effElevation = elevation - 3d;
+                    if (effElevation > 0d)
+                    {
+                        rtn = 1 + effElevation / 100d;
+                    }
+                    else
+                    {
+                        rtn = 1d;
+                    }
+                }
+            }
+            return rtn;
         }
 
         public double ComputeRollout(double headWindMultiplier, double tailWindMultiplier, double windDirection, double windStrength, double currentShotView)
@@ -438,13 +459,13 @@ namespace PocketCaddy.Model
         {
             var rtn = new ClubData()
             {
-                Name = $"Bullseye, 7*",
+                Name = $"Bullseye, 7",
                 ID = $"Bullseye, 7",
                 MagicNumber = 0.8475,
                 Type = 1,
                 Accuracy = 50,
                 MaxRange = System.Math.Round(200 * 1.1, 1),
-                ShotView = 0.94
+                ShotView = 0.92
             };
             return rtn;
         }
