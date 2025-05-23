@@ -1,20 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0"
-    />
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0" />
     <title>Pocket Caddy</title>
     <base href="/" />
     <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="css/app.css" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta
-      name="apple-mobile-web-app-status-bar-style"
-      content="black-translucent"
-    />
+    <meta name="apple-mobile-web-app-status-bar-style"
+          content="black-translucent" />
     <link rel="icon" type="image/png" href="icon-32.png" />
     <link href="PocketCaddy.styles.css" rel="stylesheet" />
     <link href="manifest.webmanifest" rel="manifest" />
@@ -22,51 +18,62 @@
     <link rel="apple-touch-icon" sizes="167x167" href="icons/icon-167.png" />
     <link rel="apple-touch-icon" sizes="152x152" href="icons/icon-152.png" />
     <link rel="apple-touch-icon" sizes="120x120" href="icons/icon-120.png" />
-  </head>
-  <script src="scripts.js"></script>
-  <script>
+</head>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-70K9WKN3HH"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-70K9WKN3HH');
+    </script>
+
+    <script src="scripts.js"></script>
+    <script>
     // Force iOS to update the app preview with current content
     function updateAppSnapshot() {
-      // This tricks iOS into taking a fresh snapshot
-      const dummy = document.createElement("div");
-      dummy.style.visibility = "hidden";
-      document.body.appendChild(dummy);
-      setTimeout(() => {
-        document.body.removeChild(dummy);
-      }, 100);
+        // This tricks iOS into taking a fresh snapshot
+        const dummy = document.createElement("div");
+        dummy.style.visibility = "hidden";
+        document.body.appendChild(dummy);
+        setTimeout(() => {
+            document.body.removeChild(dummy);
+        }, 100);
     }
 
     // Update snapshot when app backgrounds
     document.addEventListener("visibilitychange", () => {
-      if (document.visibilityState === "hidden") {
-        updateAppSnapshot();
-      }
+        if (document.visibilityState === "hidden") {
+            updateAppSnapshot();
+        }
     });
 
     if ("serviceWorker" in navigator) {
-      navigator.serviceWorker
-        .register("service-worker.js")
-        .then(() => console.log("Service Worker Registered"));
+        navigator.serviceWorker
+            .register("service-worker.js")
+            .then(() => console.log("Service Worker Registered"));
     }
-  </script>
+</script>
 
-  <body>
+<body>
     <div id="app">
-      <svg class="loading-progress">
-        <circle r="40%" cx="50%" cy="50%" />
-        <circle r="40%" cx="50%" cy="50%" />
-      </svg>
-      <div class="loading-progress-text"></div>
+        <svg class="loading-progress">
+            <circle r="40%" cx="50%" cy="50%" />
+            <circle r="40%" cx="50%" cy="50%" />
+        </svg>
+        <div class="loading-progress-text"></div>
     </div>
 
     <div id="blazor-error-ui">
-      An unhandled error has occurred.
-      <a href="." class="reload">Reload</a>
-      <span class="dismiss">🗙</span>
+        An unhandled error has occurred.
+        <a href="." class="reload">Reload</a>
+        <span class="dismiss">🗙</span>
     </div>
     <script src="_framework/blazor.webassembly.js"></script>
     <script>
-      navigator.serviceWorker.register("service-worker.js");
+        navigator.serviceWorker.register("service-worker.js");
     </script>
-  </body>
+</body>
 </html>

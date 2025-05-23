@@ -3,8 +3,8 @@ namespace PocketCaddy.Model
 {
     public class UserSettings
     {
-        public PullOptions Pull;
-        public RolloutOptions Rollout;
+        public PullOptions Pull { get; set; }
+        public RolloutOptions Rollout  { get; set; }
 
         public UserSettings()
         {

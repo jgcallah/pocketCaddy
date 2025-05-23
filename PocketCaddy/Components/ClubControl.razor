@@ -5,36 +5,35 @@
 
 <div class="club-control">
     <label class="club-label">
-        @Label 
-        <select class="club-select" @bind="SelectedClubOption" @bind:after=SelectedClubOptionChanged>  
+        @Label
+        <select class="club-select" @bind="SelectedClubOption" @bind:after=SelectedClubOptionChanged>
             @foreach (var option in ClubOptions)
             {
-                <option value="@option">@option</option>
+                    <option value="@option">@option</option>
             }
         </select>
     </label>
 
-
     <div class="stat-field">
         <label>Name:</label>
-        <input readonly="@IsReadOnly" type="string" @bind="SelectedClub.Name" />
+        <input readonly="@IsReadOnly" type="string" @bind="SelectedClub.Name" @bind:after=CustomDataChanged />
     </div>
     <div class="stats-grid">
         <div class="stat-field">
             <label>Accuracy:</label>
-            <input readonly="@IsReadOnly" type="number" @bind="SelectedClub.Accuracy" />
+            <input readonly="@IsReadOnly" type="number" @bind="SelectedClub.Accuracy" @bind:after=CustomDataChanged />
         </div>
         <div class="stat-field">
             <label>Shot View:</label>
-            <input readonly="@IsReadOnly" type="number" @bind="SelectedClub.ShotView" />
+            <input readonly="@IsReadOnly" type="number" @bind="SelectedClub.ShotView" @bind:after=CustomDataChanged />
         </div>
         <div class="stat-field">
             <label>Max Range:</label>
-            <input readonly="@IsReadOnly" type="number" @bind="SelectedClub.MaxRange" />
+            <input readonly="@IsReadOnly" type="number" @bind="SelectedClub.MaxRange" @bind:after=CustomDataChanged />
         </div>
         <div class="stat-field">
             <label>Magic Number:</label>
-            <input readonly="@IsReadOnly" type="number" @bind="SelectedClub.MagicNumber" />
+            <input readonly="@IsReadOnly" type="number" @bind="SelectedClub.MagicNumber" @bind:after=CustomDataChanged />
         </div>
     </div>
 </div>
@@ -54,7 +53,7 @@
             0 => new List<string>([.. ClubData.GetAllDriverNames(), "Custom"]),
             1 => new List<string>([.. ClubData.GetAllWoodNames(), "Custom"]),
             2 => new List<string>([.. ClubData.GetAllLongIronNames(), "Custom"]),
-            3 => new List<string>([.. ClubData.GetAllShortIronNames(),  "Custom"]),
+            3 => new List<string>([.. ClubData.GetAllShortIronNames(), "Custom"]),
             4 => new List<string>([.. ClubData.GetAllWedgeNames(), "Custom"]),
             5 => new List<string>([.. ClubData.GetAllRoughIronNames(), "Custom"]),
             6 => new List<string>([.. ClubData.GetAllSandWedgeNames(), "Custom"]),
@@ -79,13 +78,14 @@
         };
         SelectedClubOption = club.ID;
         SelectedClub = club;
+        IsReadOnly = SelectedClub.ID != "Custom"; // Set IsReadOnly based on the initial SelectedClub
     }
 
     async void SelectedClubOptionChanged()
     {
-        IsReadOnly = SelectedClubOption != "Custom";
-        
+        Console.WriteLine("test start");
         SelectedClub = GetNewClub();
+        IsReadOnly = SelectedClub.ID != "Custom";
 
         if (ClubType == 0)
             Data.Bag.Driver = SelectedClub;
@@ -104,12 +104,13 @@
 
         StateHasChanged(); // Explicitly trigger a re-render
         await AppStateService.SaveStateAsync(Data);
+        Console.WriteLine("test end");
     }
 
     ClubData GetNewClub()
     {
         var rtn = SelectedClubOption == "Custom"
-        ? ClubType switch
+            ? ClubType switch
             {
                 0 => Data.CustomClubs.Driver,
                 1 => Data.CustomClubs.Wood,
@@ -119,7 +120,7 @@
                 5 => Data.CustomClubs.RoughIron,
                 6 => Data.CustomClubs.SandWedge,
             }
-        : ClubType switch
+            : ClubType switch
             {
                 0 => ClubData.GetDriver(SelectedClubOption),
                 1 => ClubData.GetWood(SelectedClubOption),
@@ -131,5 +132,10 @@
             };
         rtn.MaxRange = System.Math.Round(rtn.MaxRange, 4);
         return rtn;
+    }
+
+    private async void CustomDataChanged()
+    {
+        await AppStateService.SaveStateAsync(Data);
     }
 }

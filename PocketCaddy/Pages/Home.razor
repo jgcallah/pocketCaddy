@@ -13,7 +13,7 @@
     <div class="p-2 mb-2 border">
         <div class="hstack gap-3 mb-1">
             <label class="form-label mb-0" style="white-space: nowrap; width: 75px;">Club:</label>
-            <select class="form-select flex-fill" @bind="SelectedClubName" @bind:after="ResetInputs">
+            <select class="form-select flex-fill" @bind="SelectedClubName" @bind:after="ClubChanged">
                 @foreach (var club in Clubs)
                 {
                     <option value="@club.Name">@club.Name</option>
@@ -61,45 +61,59 @@
     </div>
 
     <!-- OUTPUTS: fills remaining space and scrolls internally -->
-    <div class="border flex-grow-1 p-2 overflow-auto">
-        <div class="card-body h-100 d-flex p-0 m-0">
-            <!-- Table 1 -->
-            <div class="flex-fill overflow-auto me-2">
-                <table class="table table-bordered table-sm synced-table w-100">
+    <div class="border flex-grow-1 p-2 overflow-auto"> <div class="card-body h-100 d-flex p-0 m-0">
+            <div class="flex-fill overflow-auto me-2"> 
+                <table class="table table-bordered table-sm synced-table w-100">                                                                            
                     <thead class="sticky-top bg-light">
                         <tr>
-                            <th class="col-a">Yards  </th>
-                            <th class="col-b">Pull  </th>
+                            <th>Yards</th>
+                            <th>Pull</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var row in PullValues)
+                        @if (PullValues != null)
                         {
-                            <tr>
-                                <td style="background-color: @row.Background;">@row.Yards</td>
-                                <td style="background-color: @row.Background;">@row.Pull</td>
-                            </tr>
+                            @foreach (var row in PullValues)
+                            {
+                                <tr>
+                                    <td style="background-color: @row.Background;">@row.Yards</td>
+                                    <td style="background-color: @row.Background;">@row.Pull</td>
+                                </tr>
+                            }
                         }
                     </tbody>
                 </table>
             </div>
 
-            <!-- Table 2 -->
+            @{
+                string table2LayoutClass = Data?.Settings?.Rollout?.IncludeSideOffset == true ? "table2-cols-3" : "table2-cols-2";
+            }
             <div class="flex-fill overflow-auto">
-                <table class="table table-bordered table-sm synced-table w-100">
+                <table class="table table-bordered table-sm synced-table w-100 @table2LayoutClass">
                     <thead class="sticky-top bg-light">
                         <tr>
-                            <th class="col-a">SV  </th>
-                            <th class="col-b">RO  </th>
+                            <th>SV</th>
+                            <th>RO</th>
+                            @if (Data?.Settings?.Rollout?.IncludeSideOffset == true)
+                            {
+                                <th>SO</th>
+                            }
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var row in ROValues)
+                        @if (ROValues != null)
                         {
-                            <tr>
-                                <td>@row.SV</td>
-                                <td>@row.RO</td>
-                            </tr>
+                            @foreach (var row in ROValues)
+                            {
+                                <tr>
+                                    <td>@row.SV</td>
+                                    <td>@row.RO</td>
+                                    @if (Data?.Settings?.Rollout?.IncludeSideOffset == true)
+                                    {
+                                        <td>@row.SO</td>
+                                    }
+                                </tr>
+                            }
                         }
                     </tbody>
                 </table>
@@ -131,7 +145,7 @@
 @code {
     private Compass? CompassControl;
 
-    UserData? Data;
+    UserData Data = new();
     string SelectedClubName = string.Empty;
 
     ClubData? GetSelectedClub()
@@ -142,11 +156,6 @@
 
     List<ClubData> Clubs = new();
 
-    double _windDirection;
-    double _windSpeed;
-    double _yards;
-    double _elevation;
-
     string ElevationString = "0";
     string LastValidElevationString = "0";
 
@@ -155,14 +164,14 @@
         var val = e.Value?.ToString() ?? "";
         if (val == "-")
         {
-            _elevation = 0;
+            Data!.ShotInfo.Elevation = 0;
             ElevationString = val;
             LastValidElevationString = val;
             UpdateData();
         }
         else if (double.TryParse(val, out var ele))
         {
-            _elevation = ele;
+            Data!.ShotInfo.Elevation = ele;
             ElevationString = val;
             LastValidElevationString = val;
             UpdateData();
@@ -186,11 +195,11 @@
             if (ElevationString == "-0" || ElevationString == "-0.")
             {
                 ElevationString = "-0";
-                _elevation = 0.0;
+                Data!.ShotInfo.Elevation = 0.0;
             }
             else
             {
-                _elevation = parsedValue;
+                Data!.ShotInfo.Elevation = parsedValue;
             }
             UpdateData();
         }
@@ -205,26 +214,26 @@
 
     double WindDirection
     {
-        get => _windDirection;
+        get => Data!.ShotInfo.WindDirection;
         set
         {
-            if (_windDirection != value)
+            if (Data!.ShotInfo.WindDirection != value)
             {
-                _windDirection = value;
+                Data!.ShotInfo.WindDirection = value;
                 UpdateData();
-                CompassControl?.UpdateRender(_windDirection);
+                CompassControl?.UpdateRender(Data!.ShotInfo.WindDirection);
             }
         }
     }
 
     double WindSpeed
     {
-        get => _windSpeed;
+        get => Data!.ShotInfo.WindSpeed;
         set
         {
-            if (_windSpeed != value)
+            if (Data!.ShotInfo.WindSpeed != value)
             {
-                _windSpeed = value;
+                Data!.ShotInfo.WindSpeed = value;
                 UpdateData();
             }
         }
@@ -232,12 +241,12 @@
 
     double Yards
     {
-        get => _yards;
+        get => Data!.ShotInfo.Yards;
         set
         {
-            if (_yards != value)
+            if (Data!.ShotInfo.Yards != value)
             {
-                _yards = value;
+                Data!.ShotInfo.Yards = value;
                 UpdateData();
             }
         }
@@ -245,23 +254,38 @@
 
     double Elevation
     {
-        get => _elevation;
+        get => Data!.ShotInfo.Elevation;
         set
         {
-            if (_elevation != value)
+            if (Data!.ShotInfo.Elevation != value)
             {
-                _elevation = value;
+                Data!.ShotInfo.Elevation = value;
                 ElevationString = value.ToString("0.0#");
                 UpdateData();
             }
         }
     }
 
+    void ClubChanged()
+    {
+        var club = GetSelectedClub();
+        Data.ShotInfo.ClubType = club.Type;
+
+        var targetYards = club.Type == 4 ? 30d : club.MaxRange - 5;
+        var newYardage = System.Math.Round(System.Math.Floor((targetYards) / 5 + 1e-6) * 5 + 5, 0);
+        SetYardage(newYardage);
+
+        // save data
+        Data.ShotInfo.Yards = Yards;
+    }
+
     void ResetInputs()
     {
         var club = GetSelectedClub();
         Data.ShotInfo.ClubType = club.Type;
-        Yards = System.Math.Round(club.MaxRange - 5, 0);
+        var targetYards = club.Type == 4 ? 30d : club.MaxRange - 5;
+        var newYardage = System.Math.Round(System.Math.Floor((targetYards) / 5 + 1e-6) * 5 + 5, 0);
+        SetYardage(newYardage);
         WindDirection = 6;
         WindSpeed = 4d;
         Elevation = 0d;
@@ -385,10 +409,10 @@
                 color = "#9fc5e8";
             else if (System.Math.Abs(yds - yd) <= 3 + 1e-6)
                 color = "#cfe2f3";
-            
+
             // current club
             var cc = GetSelectedClub();
-            
+
             var pull = cc.ComputePull(Elevation, WindDirection, WindSpeed, yd, cc.Type, Data!.Settings.Pull);
             rtn.Add((System.Math.Round(yd, 4), System.Math.Round(pull, 2), color));
         }
@@ -396,25 +420,28 @@
         PullValues = rtn;
     }
 
-    List<(double SV, double RO)> ROValues = new();
+    List<(double SV, double RO, double SO)> ROValues = new();
 
     void UpdateROValues()
     {
         var cc = GetSelectedClub();        
         var sv = new[] { 1d, 1.25d, 1.5d, 1.75d, 2d, 2.25, 2.5, 2.75, 3, 3.25, 3.5, 3.75, 4, 4.25, 4.5, 4.75, 5, 5.5, 6.0, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10 };
-        var rtn = new List<(double, double)>();
+        var rtn = new List<(double, double, double)>();
 
-        var hwMult = Data!.Settings.Rollout.GetHeadWind(cc.Type);
+        var hwMult = Data!.Settings.Rollout.GetHeadWind(cc!.Type);
         var twMult = Data!.Settings.Rollout.GetTailWind(cc.Type);
+        var soFactor = Data!.Settings.Rollout.GetSideOffsetFactor(cc.Type);
         foreach (var item in sv)
         {
             var finalRO = cc.ComputeRollout(hwMult, twMult, WindDirection, WindSpeed, item);
-            rtn.Add((item, System.Math.Round(finalRO, 2)));
+            var pull = PullValues.ElementAt((PullValues.Count + 1) / 2).Pull;
+            var so = cc.ComputeSideOffset(Yards, finalRO, soFactor, WindDirection, pull);
+
+            rtn.Add((item, System.Math.Round(finalRO, 2), System.Math.Round(so, 2)));
         }
 
         ROValues = rtn;
     }
-
 
 
     protected async override Task OnInitializedAsync()
@@ -422,11 +449,8 @@
         Data = await AppStateService.GetOrCreateStateAsync();
         Clubs = Data.Bag.GetClubs();        
         SelectedClubName = Clubs.ElementAt(Data.ShotInfo.ClubType).Name;
-        _yards = Data.ShotInfo.Yards;
-        _windDirection = Data.ShotInfo.WindDirection;
-        _windSpeed = Data.ShotInfo.WindSpeed;
-        _elevation = Data.ShotInfo.Elevation;
-        ElevationString = _elevation.ToString();
+  
+        ElevationString = Data.ShotInfo.Elevation.ToString();
         UpdatePullValues();
         UpdateROValues();
     }
@@ -435,7 +459,7 @@
     {
         if (firstRender) // Only run once after initial render
         {
-            CompassControl?.UpdateRender(_windDirection);
+            CompassControl?.UpdateRender(Data.ShotInfo.WindDirection);
         }
         await base.OnAfterRenderAsync(firstRender);
     }

@@ -9,6 +9,7 @@ namespace PocketCaddy.Services
     {
         private readonly IJSRuntime _js;
         private const string LocalStorageKey = "PocketCaddyState";
+        public string Version = "1.1.0";
 
         public PocketCaddyStateService(IJSRuntime js)
         {
@@ -16,13 +17,14 @@ namespace PocketCaddy.Services
         }
 
         private UserData _data;
+
         public async Task SaveStateAsync(UserData state)
         {
             try
             {
+                _data = state;
                 var serializedState = JsonSerializer.Serialize(state);
                 await _js.InvokeVoidAsync("localStorage.setItem", LocalStorageKey, serializedState);
-                _data = state;
             }
             catch (Exception ex)
             {
@@ -70,7 +72,14 @@ namespace PocketCaddy.Services
         public async Task<UserData> GetOrCreateStateAsync()
         {
             var loadedState = await LoadStateAsync();
-            return loadedState ?? new UserData();
+            var rtn = loadedState ?? new UserData();
+            if (string.IsNullOrEmpty(rtn.Version))
+            {
+                rtn.Settings.Pull.ZeroAdjustmentRange = 17d;
+            }
+
+            rtn.Version = Version;
+            return rtn;
         }
     }
 }

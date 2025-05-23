@@ -26,10 +26,6 @@ jobs:
       - name: Publish .NET Core Project
         run: dotnet publish PocketCaddy/PocketCaddy.csproj -c:Release -p:GHPages=true -o publish --nologo
 
-      # changes the base-tag in index.html from '/' to 'pocketCaddy' to match GitHub Pages repository subdirectory
-      - name: Change base-tag in index.html from / to pocketCaddy
-        run: sed -i 's/<base href="\/" \/>/<base href="\/pocketCaddy\/" \/>/g' publish/wwwroot/index.html
-
       # Copy index.html to 404.html to serve the same file when a file is not found
       - name: Copy index.html to 404.html
         run: cp publish/wwwroot/index.html publish/wwwroot/404.html

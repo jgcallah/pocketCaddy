@@ -3,13 +3,13 @@ namespace PocketCaddy.Model
 {
     public class UserBag
     {
-        public ClubData Driver;
-        public ClubData Wood;
-        public ClubData LongIron;
-        public ClubData ShortIron;
-        public ClubData Wedge;
-        public ClubData RoughIron;
-        public ClubData SandWedge;
+        public ClubData Driver { get; set; }
+        public ClubData Wood  { get; set; }
+        public ClubData LongIron  { get; set; }
+        public ClubData ShortIron  { get; set; }
+        public ClubData Wedge  { get; set; }
+        public ClubData RoughIron  { get; set; }
+        public ClubData SandWedge  { get; set; }
 
         public UserBag()
         {

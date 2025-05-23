@@ -9,17 +9,18 @@ namespace PocketCaddy.Model
 
     public class PullOptions
     {
-        public double DriverAdjustment;
-        public double WoodAdjustment;
-        public double LongIronAdjustment;
-        public double ShortIronAdjustment;
-        public double WedgeAdjustment;
-        public double RoughIronAdjustment;
-        public double SandWedgeAdjustment;
-        public double HeadWindMultiplier;
-        public double TailWindMultiplier;
-        public double ZeroAdjustmentRange;
-        public ZeroAdjustmentOptions ZeroAdjustment;
+        public double DriverAdjustment { get; set; }
+        public double WoodAdjustment  { get; set; }
+        public double LongIronAdjustment  { get; set; }
+        public double ShortIronAdjustment  { get; set; }
+        public double WedgeAdjustment  { get; set; }
+        public double RoughIronAdjustment  { get; set; }
+        public double SandWedgeAdjustment  { get; set; }
+        public double HeadWindMultiplier  { get; set; }
+        public double TailWindMultiplier  { get; set; }
+        public double ZeroAdjustmentRange  { get; set; }
+        public ZeroAdjustmentOptions ZeroAdjustment  { get; set; }
+        public bool AdjustElevationValues { get; set; }
 
         public PullOptions()
         {
@@ -37,8 +38,9 @@ namespace PocketCaddy.Model
             SandWedgeAdjustment = 0d;
             HeadWindMultiplier = 0.0095;
             TailWindMultiplier = 0.0095;
-            ZeroAdjustmentRange = 16d;
+            ZeroAdjustmentRange = 17d;
             ZeroAdjustment = ZeroAdjustmentOptions.WedgeOnly;
+            AdjustElevationValues = true;
         }
 
         internal double GetAdjustment(int clubType)
