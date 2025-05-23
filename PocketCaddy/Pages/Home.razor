@@ -453,6 +453,7 @@
         ElevationString = Data.ShotInfo.Elevation.ToString();
         UpdatePullValues();
         UpdateROValues();
+        CompassControl?.UpdateRender(Data.ShotInfo.WindDirection);
     }
     
     protected override async Task OnAfterRenderAsync(bool firstRender)
